@@ -1,6 +1,8 @@
 package ru.otus.common.data.promo
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,7 +18,10 @@ class PromoRepository @Inject constructor(
     private val promoDataMapper: PromoDataMapper,
     private val dispatcher: CoroutineDispatcher,
 ) {
-    private val scope = CoroutineScope(SupervisorJob() + dispatcher)
+    private val scope = CoroutineScope(SupervisorJob()
+            + dispatcher
+            + CoroutineExceptionHandler { _, t -> Log.w("PromoRepository", t) }
+    )
 
     fun consumePromos(): Flow<List<PromoEntity>> {
         scope.launch(Dispatchers.IO) {

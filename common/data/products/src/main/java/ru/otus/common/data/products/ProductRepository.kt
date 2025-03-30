@@ -1,6 +1,8 @@
 package ru.otus.common.data.products
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,7 +18,10 @@ class ProductRepository @Inject constructor(
     private val productDataMapper: ProductDataMapper,
     private val dispatcher: CoroutineDispatcher,
 ) {
-    private val scope = CoroutineScope(SupervisorJob() + dispatcher)
+    private val scope = CoroutineScope(SupervisorJob()
+            + dispatcher
+            + CoroutineExceptionHandler { _, t -> Log.w("ProductRepository", t) }
+    )
 
     fun consumeProducts(): Flow<List<ProductEntity>> {
         scope.launch(Dispatchers.IO) {
