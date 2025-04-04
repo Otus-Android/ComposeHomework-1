@@ -2,12 +2,18 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinxSerialization)
-    alias(libs.plugins.kapt)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+
 }
 
 android {
     namespace 'ru.otus.marketsample'
     compileSdk 35
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId "ru.otus.marketsample"
@@ -34,6 +40,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
 }
 
@@ -64,9 +71,28 @@ dependencies {
     implementation libs.androidx.datastore.preferences
 
     implementation libs.dagger
-    kapt libs.daggerCompiler
+    implementation libs.androidx.runtime.android
+    implementation libs.androidx.ui.tooling.preview.android
+    ksp libs.daggerCompiler
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.espresso.core
+
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.material3)
+    debugImplementation(libs.androidx.ui.tooling)
+
+    // Image loading
+    implementation(libs.bumptech.glide)
+    ksp(libs.glide.compiler)
+    implementation(libs.accompanist.glide)
+    implementation(libs.accompanist.glide.legacy)
+    implementation(libs.coil)
+    implementation(libs.accompanist.coil)
+
 }
