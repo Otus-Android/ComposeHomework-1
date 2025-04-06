@@ -178,7 +178,7 @@ fun DiscountText(
                     color = Color.White,
                     shape = shape
                 )
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = 10.dp, vertical = 4.dp)
                 .wrapContentSize()
         )
     }

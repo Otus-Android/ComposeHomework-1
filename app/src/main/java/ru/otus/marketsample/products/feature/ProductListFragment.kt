@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 import ru.otus.marketsample.MarketSampleApp
 import ru.otus.marketsample.R
 import ru.otus.marketsample.databinding.FragmentProductListBinding
+import ru.otus.marketsample.details.feature.DetailsScreen
 import ru.otus.marketsample.products.feature.adapter.ProductsAdapter
 import ru.otus.marketsample.products.feature.di.DaggerProductListComponent
 import javax.inject.Inject
@@ -48,14 +50,18 @@ class ProductListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProductListBinding.inflate(inflater, container, false)
-        return binding.root
+        return ComposeView(requireContext()).apply {
+            setContent {
+                ProductListScreen(viewModel)
+            }
+        }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.adapter = ProductsAdapter(
+      /*  binding.recyclerView.adapter = ProductsAdapter(
             onItemClicked = { productId ->
                 requireActivity().findNavController(R.id.nav_host_activity_main)
                     .navigate(
@@ -70,10 +76,10 @@ class ProductListFragment : Fragment() {
             viewModel.refresh()
         }
 
-        subscribeUI()
+        subscribeUI()*/
     }
 
-    private fun subscribeUI() {
+  /*  private fun subscribeUI() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -96,8 +102,8 @@ class ProductListFragment : Fragment() {
                 }
             }
         }
-    }
-
+    }*/
+/*
     private fun showProductList(productListState: List<ProductState>) {
         binding.progress.visibility = View.GONE
         binding.recyclerView.visibility = View.VISIBLE
@@ -112,5 +118,5 @@ class ProductListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
+    }*/
 }
