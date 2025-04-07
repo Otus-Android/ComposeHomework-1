@@ -43,6 +43,21 @@ android {
         viewBinding true
         compose true
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.15"
+    }
+
+        kotlinOptions {
+            freeCompilerArgs += [
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$buildDir/compose-metrics",
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$buildDir/compose-reports"
+            ]
+        }
+
+
 }
 
 dependencies {

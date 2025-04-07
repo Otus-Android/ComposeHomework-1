@@ -6,6 +6,7 @@ typealias ErrorProvider = (Context) -> String
 
 data class PromoScreenState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val promoListState: List<PromoState> = emptyList(),
     val hasError: Boolean = false,
     val errorProvider: ErrorProvider = { "" },

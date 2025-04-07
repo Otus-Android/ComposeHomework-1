@@ -21,6 +21,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 
 import androidx.compose.runtime.Composable;
 import androidx.compose.runtime.getValue
@@ -41,35 +43,27 @@ import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.accompanist.glide.rememberGlidePainter
 import ru.otus.marketsample.R
-
-import ru.otus.marketsample.details.feature.DetailsViewModel;
 import ru.otus.marketsample.details.feature.DiscountText
 
 
 @Preview(showSystemUi = true)
 @Composable
 fun ProductListScreenPreview() {
-    // ProductListScreen(null)
-    /*ProductListScreen(null)*/
-    //ItemProduct(ProductState("d", "name", " ", "200", true, "-23%"))
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductListScreen(
-    viewModel: ProductListViewModel?,
+    viewModel: ProductListViewModel,
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    val state by viewModel!!.state.collectAsStateWithLifecycle()
-    /* LaunchedEffect(Unit) {
-         viewModel!!.state.collect { newState ->
-             state = newState
-         }
-     }*/
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val statePullToRefreshState = rememberPullToRefreshState()
 
 
     if (state.isLoading) {
@@ -80,12 +74,23 @@ fun ProductListScreen(
         )
     } else if (state.hasError) {
         Toast.makeText(LocalContext.current, "Error while loading data", Toast.LENGTH_SHORT).show()
-        viewModel!!.errorHasShown()
+        viewModel.errorHasShown()
     } else {
         PullToRefreshBox(
             isRefreshing = state.isRefreshing,
-            onRefresh = { viewModel!!.refresh() },
-            modifier = modifier
+            onRefresh = { viewModel.refresh() },
+            modifier = modifier,
+            state = statePullToRefreshState,
+
+            indicator = {
+                Indicator(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    containerColor = Color.White,
+                    color = Color.Black,
+                    state = statePullToRefreshState,
+                    isRefreshing = state.isRefreshing
+                )
+            }
         ) {
             LazyColumn(modifier = modifier.fillMaxSize()) {
                 items(state.productListState) {
@@ -148,10 +153,7 @@ fun ItemProduct(
 @Composable
 fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
     Image(
-        painter = rememberGlidePainter(
-            request = imageUrl,
-            previewPlaceholder = R.drawable.ic_launcher_foreground
-        ),
+        painter = rememberGlidePainter(request = imageUrl),
         contentDescription = "",
         modifier = modifier
             .fillMaxSize()
@@ -168,7 +170,8 @@ fun ProductName(name: String, modifier: Modifier = Modifier) {
         text = name,
         color = Color.Black,
         fontSize = 18.sp,
-        maxLines = 2, fontWeight = FontWeight.Medium,
+        maxLines = 2,
+        fontWeight = FontWeight.Bold,
         overflow = TextOverflow.Ellipsis,
 
         )

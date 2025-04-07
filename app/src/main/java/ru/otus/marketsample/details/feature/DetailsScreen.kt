@@ -9,49 +9,48 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.glide.rememberGlidePainter
 import ru.otus.marketsample.R
 
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
-
 
 @Preview(showSystemUi = true)
 @Composable
 fun DetailsScreenPreview() {
 
-    DetailsScreen(null)
-
 }
 
 @Composable
-fun DetailsScreen(viewModel: DetailsViewModel?, modifier: Modifier = Modifier) {
+fun DetailsScreen(viewModel: DetailsViewModel, modifier: Modifier = Modifier) {
     var state by remember { mutableStateOf(DetailsScreenState()) }
     LaunchedEffect(Unit) {
-        viewModel!!.state.collect { newState ->
+        viewModel.state.collect { newState ->
             state = newState
         }
     }
@@ -61,7 +60,7 @@ fun DetailsScreen(viewModel: DetailsViewModel?, modifier: Modifier = Modifier) {
             .wrapContentSize(Alignment.Center))
     } else if (state.hasError) {
         Toast.makeText(LocalContext.current, "Error while loading data", Toast.LENGTH_SHORT).show()
-        viewModel!!.errorHasShown()
+        viewModel.errorHasShown()
     } else {
         ProductDetails(state.detailsState, modifier = modifier)
     }
@@ -75,8 +74,8 @@ fun ProductDetails(details: DetailsState, modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(color = Color.White)
     ) {
-        ImageProduct(modifier = modifier, details!!.image)
-        NameProduct(details!!.name)
+        ImageProduct(modifier = modifier, details.image)
+        NameProduct(details.name)
         Column(
             modifier = modifier.align(Alignment.End)
         ) {
@@ -130,10 +129,7 @@ private fun NameProduct(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
     Image(
-        painter = rememberGlidePainter(
-            request = imageUrl,
-            previewPlaceholder = R.drawable.ic_launcher_foreground
-        ),
+        painter = rememberGlidePainter(request = imageUrl),
         contentDescription = "",
         modifier = modifier
             .fillMaxWidth()
@@ -161,8 +157,8 @@ fun DiscountText(
         Text(
             text = text,
             color = Color.White,
-            fontSize = 20.sp,
-
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
             modifier = modifier
                 .clip(shape)
                 .background(
@@ -171,9 +167,10 @@ fun DiscountText(
                             colorResource(id = ru.otus.common.ui.R.color.purple_200),
                             colorResource(id = ru.otus.common.ui.R.color.purple_500)
                         ),
+                        //todo
                         start = Offset(0f, 0f),
-                        end = Offset(1000f, 1000f)
-                    )
+                        end = Offset(40f, 40f)
+                )
                 )
                 .border(
                     width = 2.dp,
