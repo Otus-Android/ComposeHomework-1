@@ -56,7 +56,9 @@ fun DetailsScreen(viewModel: DetailsViewModel?, modifier: Modifier = Modifier) {
         }
     }
     if (state.isLoading) {
-        CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        CircularProgressIndicator(modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center))
     } else if (state.hasError) {
         Toast.makeText(LocalContext.current, "Error while loading data", Toast.LENGTH_SHORT).show()
         viewModel!!.errorHasShown()

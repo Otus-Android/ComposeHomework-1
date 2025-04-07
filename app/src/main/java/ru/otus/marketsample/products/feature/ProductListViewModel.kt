@@ -2,6 +2,7 @@ package ru.otus.marketsample.products.feature
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,7 +33,10 @@ class ProductListViewModel(
             products.map { product -> productStateFactory.create(product) }
         }
             .onStart {
-                _state.update { screenState -> screenState.copy(isLoading = true) }
+                if (state.value.productListState.isEmpty())
+                    _state.update { screenState -> screenState.copy(isLoading = true) }
+                else
+                    _state.update { screenState -> screenState.copy(isRefreshing = true) }
             }
             .onEach { productListState ->
                 _state.update { screenState ->
@@ -40,6 +44,13 @@ class ProductListViewModel(
                         isLoading = false,
                         productListState = productListState,
                     )
+                }
+                delay(500)
+                _state.update { screenState ->
+                    screenState.copy(
+                        isRefreshing = false,
+                    )
+
                 }
             }
             .catch {

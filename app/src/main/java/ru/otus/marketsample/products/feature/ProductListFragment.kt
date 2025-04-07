@@ -26,9 +26,6 @@ import javax.inject.Inject
 
 class ProductListFragment : Fragment() {
 
-    private var _binding: FragmentProductListBinding? = null
-    private val binding get() = _binding!!
-
     @Inject
     lateinit var factory: ProductListViewModelFactory
 
@@ -52,71 +49,10 @@ class ProductListFragment : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                ProductListScreen(viewModel)
+                ProductListScreen(viewModel,  requireActivity().findNavController(R.id.nav_host_activity_main))
             }
         }
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-      /*  binding.recyclerView.adapter = ProductsAdapter(
-            onItemClicked = { productId ->
-                requireActivity().findNavController(R.id.nav_host_activity_main)
-                    .navigate(
-                        resId = R.id.action_main_to_details,
-                        args = bundleOf("productId" to productId),
-                    )
-            }
-        )
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.refresh()
-        }
-
-        subscribeUI()*/
-    }
-
-  /*  private fun subscribeUI() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.state.collect { state ->
-                        when {
-                            state.isLoading -> showLoading()
-                            state.hasError -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Error wile loading data",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                viewModel.errorHasShown()
-                            }
-
-                            else -> showProductList(productListState = state.productListState)
-                        }
-                    }
-                }
-            }
-        }
-    }*/
-/*
-    private fun showProductList(productListState: List<ProductState>) {
-        binding.progress.visibility = View.GONE
-        binding.recyclerView.visibility = View.VISIBLE
-        (binding.recyclerView.adapter as ProductsAdapter).submitList(productListState)
-    }
-
-    private fun showLoading() {
-        binding.progress.visibility = View.VISIBLE
-        binding.recyclerView.visibility = View.GONE
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }*/
 }
