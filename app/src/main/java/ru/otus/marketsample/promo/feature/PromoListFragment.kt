@@ -9,15 +9,11 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import ru.otus.common.di.findDependencies
-import ru.otus.marketsample.promo.feature.adapter.PromoAdapter
 import ru.otus.marketsample.promo.feature.di.DaggerPromoComponent
 import javax.inject.Inject
 
 class PromoListFragment : Fragment() {
 
-
-    @Inject
-    lateinit var adapter: PromoAdapter
 
     @Inject
     lateinit var factory: PromoListViewModelFactory
