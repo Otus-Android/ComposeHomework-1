@@ -1,38 +1,36 @@
 package ru.otus.marketsample.products.feature
 
-import android.widget.Toast;
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
-
 import androidx.compose.runtime.Composable;
 import androidx.compose.runtime.getValue
-
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,7 +43,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.google.accompanist.glide.rememberGlidePainter
 import ru.otus.marketsample.R
-import ru.otus.marketsample.details.feature.DiscountText
+import ru.otus.marketsample.commonUi.DiscountText
+import ru.otus.marketsample.commonUi.ErrorSnackbar
+import ru.otus.marketsample.commonUi.LoadingProgressBar
 
 
 @Preview(showSystemUi = true)
@@ -54,7 +54,7 @@ fun ProductListScreenPreview() {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ProductListScreen(
     viewModel: ProductListViewModel,
@@ -62,40 +62,32 @@ fun ProductListScreen(
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    val statePullToRefreshState = rememberPullToRefreshState()
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) {
+        when {
+            state.isLoading -> {
+                LoadingProgressBar()
+            }
 
-
-    if (state.isLoading) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center)
-        )
-    } else if (state.hasError) {
-        Toast.makeText(LocalContext.current, "Error while loading data", Toast.LENGTH_SHORT).show()
-        viewModel.errorHasShown()
-    } else {
-        PullToRefreshBox(
-            isRefreshing = state.isRefreshing,
-            onRefresh = { viewModel.refresh() },
-            modifier = modifier,
-            state = statePullToRefreshState,
-
-            indicator = {
-                Indicator(
-                    modifier = Modifier.align(Alignment.TopCenter),
-                    containerColor = Color.White,
-                    color = Color.Black,
-                    state = statePullToRefreshState,
-                    isRefreshing = state.isRefreshing
+            state.hasError -> {
+                ErrorSnackbar(
+                    snackbarHostState = snackbarHostState,
+                    message = "Error while loading data",
+                    onErrorShown = { viewModel.errorHasShown() }
                 )
             }
-        ) {
-            LazyColumn(modifier = modifier.fillMaxSize()) {
-                items(state.productListState) {
-                    ItemProduct(it, navController, modifier)
-                }
+
+            else -> {
+                PullToRefreshContent(
+                    state,
+                    { viewModel.refresh() },
+                    navController,
+                    modifier
+                )
             }
         }
     }
@@ -103,7 +95,48 @@ fun ProductListScreen(
 }
 
 @Composable
-fun ItemProduct(
+@OptIn(ExperimentalMaterial3Api::class)
+private fun PullToRefreshContent(
+    state: ProductsScreenState,
+    onRefresh: () -> Unit,
+    navController: NavController,
+    modifier: Modifier,
+) {
+    val statePullToRefreshState = rememberPullToRefreshState()
+    PullToRefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = { onRefresh() },
+        modifier = modifier,
+        state = statePullToRefreshState,
+        indicator = {
+            Indicator(
+                modifier = Modifier.align(Alignment.TopCenter),
+                containerColor = Color.White,
+                color = Color.Black,
+                state = statePullToRefreshState,
+                isRefreshing = state.isRefreshing
+            )
+        }
+    ) {
+        List(modifier, navController ,state)
+    }
+}
+
+@Composable
+private fun List(
+    modifier: Modifier,
+    navController: NavController,
+    state: ProductsScreenState
+) {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
+        items(state.productListState) {
+            Product(it,navController,  modifier)
+        }
+    }
+}
+
+@Composable
+private fun Product(
     productState: ProductState,
     navController: NavController,
     modifier: Modifier = Modifier
@@ -144,14 +177,14 @@ fun ItemProduct(
 
         ) {
 
-            ProductName(name = productState.name, modifier = modifier)
-            ProductPrise(prise = productState.price, modifier = modifier.align(Alignment.End))
+            Name(name = productState.name, modifier = modifier)
+            Prise(prise = productState.price, modifier = modifier.align(Alignment.End))
         }
     }
 }
 
 @Composable
-fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
+private fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
     Image(
         painter = rememberGlidePainter(request = imageUrl),
         contentDescription = "",
@@ -164,7 +197,7 @@ fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
 }
 
 @Composable
-fun ProductName(name: String, modifier: Modifier = Modifier) {
+private fun Name(name: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.fillMaxWidth(),
         text = name,
@@ -179,7 +212,7 @@ fun ProductName(name: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ProductPrise(prise: String, modifier: Modifier = Modifier) {
+private fun Prise(prise: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier
             .background(

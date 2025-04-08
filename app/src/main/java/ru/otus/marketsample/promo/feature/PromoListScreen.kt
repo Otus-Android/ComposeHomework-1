@@ -1,6 +1,6 @@
 package ru.otus.marketsample.promo.feature
 
-import android.widget.Toast
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,86 +10,118 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.glide.rememberGlidePainter
-
+import ru.otus.marketsample.commonUi.ErrorSnackbar
+import ru.otus.marketsample.commonUi.LoadingProgressBar
 
 
 @Preview(showSystemUi = true)
 @Composable
 fun PromoListScreenPreview() {
- /*   ItemPromo(PromoState("", "Здоровый спорт", "teeeeeeeeeeeeeeeeeeeeeec", "r"))*/
+
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PromoListScreen(
     viewModel: PromoListViewModel,
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
 
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) {
+        when {
+            state.isLoading -> {
+                LoadingProgressBar()
+            }
 
-    val statePullToRefreshState = rememberPullToRefreshState()
-
-    if (state.isLoading) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center)
-        )
-    } else if (state.hasError) {
-        Toast.makeText(LocalContext.current, "Error while loading data", Toast.LENGTH_SHORT).show()
-        viewModel.errorHasShown()
-    } else {
-        PullToRefreshBox(
-            isRefreshing = state.isRefreshing,
-            onRefresh = { viewModel.refresh() },
-            modifier = modifier,
-            state = statePullToRefreshState,
-
-            indicator = {
-                Indicator(
-                    modifier = Modifier.align(Alignment.TopCenter),
-                    containerColor = Color.White,
-                    color = Color.Black,
-                    state = statePullToRefreshState,
-                    isRefreshing = state.isRefreshing
+            state.hasError -> {
+                ErrorSnackbar(
+                    snackbarHostState = snackbarHostState,
+                    message = "Error while loading data",
+                    onErrorShown = { viewModel.errorHasShown() }
                 )
             }
-        ) {
-            LazyColumn(modifier = modifier.fillMaxSize()) {
-                items(state.promoListState) {
-                    ItemPromo(it, modifier)
-                }
+
+            else -> {
+                PullToRefreshContent(
+                    state,
+                    { viewModel.refresh() },
+                    modifier
+                )
             }
         }
     }
-
 }
 
 @Composable
-fun ItemPromo(promoState: PromoState, modifier: Modifier = Modifier) {
+@OptIn(ExperimentalMaterial3Api::class)
+private fun PullToRefreshContent(
+    state: PromoScreenState,
+    onRefresh: () -> Unit,
+    modifier: Modifier,
+) {
+    val statePullToRefreshState = rememberPullToRefreshState()
+    PullToRefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = { onRefresh() },
+        modifier = modifier,
+        state = statePullToRefreshState,
+        indicator = {
+            Indicator(
+                modifier = Modifier.align(Alignment.TopCenter),
+                containerColor = Color.White,
+                color = Color.Black,
+                state = statePullToRefreshState,
+                isRefreshing = state.isRefreshing
+            )
+        }
+    ) {
+        List(modifier, state)
+    }
+}
+
+@Composable
+private fun List(
+    modifier: Modifier,
+    state: PromoScreenState
+) {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
+        items(state.promoListState) {
+            Promo(it, modifier)
+        }
+    }
+}
+
+
+@Composable
+private fun Promo(promoState: PromoState, modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,14 +143,14 @@ fun ItemPromo(promoState: PromoState, modifier: Modifier = Modifier) {
                 .padding(10.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
-            NamePromo(promoState.name)
-            DescriptionPromo(promoState.description)
+            Name(promoState.name)
+            Description(promoState.description)
         }
     }
 }
 
 @Composable
-fun PromoImage(modifier: Modifier = Modifier, imageUrl: String) {
+private fun PromoImage(modifier: Modifier = Modifier, imageUrl: String) {
     Image(
         painter = rememberGlidePainter(request = imageUrl),
         contentDescription = "",
@@ -131,7 +163,7 @@ fun PromoImage(modifier: Modifier = Modifier, imageUrl: String) {
 }
 
 @Composable
-fun NamePromo(name: String, modifier: Modifier = Modifier) {
+private fun Name(name: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.fillMaxWidth(),
         text = name,
@@ -142,7 +174,7 @@ fun NamePromo(name: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DescriptionPromo(description: String, modifier: Modifier = Modifier) {
+private fun Description(description: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.fillMaxWidth(),
         text = description,
