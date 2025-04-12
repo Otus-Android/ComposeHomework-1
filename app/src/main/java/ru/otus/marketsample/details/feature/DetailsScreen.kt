@@ -14,12 +14,8 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,15 +25,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.glide.rememberGlidePainter
-import kotlinx.coroutines.launch
 import ru.otus.marketsample.R
 import ru.otus.marketsample.commonUi.DiscountText
 import ru.otus.marketsample.commonUi.ErrorSnackbar
 import ru.otus.marketsample.commonUi.LoadingProgressBar
-import javax.inject.Inject
 
 
 @Preview(showSystemUi = true)
@@ -59,7 +52,7 @@ fun DetailsScreen(viewModel: DetailsViewModel, modifier: Modifier = Modifier) {
     ) {
         when {
             state.isLoading -> {
-                LoadingProgressBar()
+                LoadingProgressBar(modifier = modifier)
             }
 
             state.hasError -> {
@@ -71,7 +64,7 @@ fun DetailsScreen(viewModel: DetailsViewModel, modifier: Modifier = Modifier) {
             }
 
             else -> {
-                Details(state.detailsState, modifier)
+                Details(details = state.detailsState, modifier = Modifier)
             }
         }
     }
@@ -84,24 +77,24 @@ private fun Details(details: DetailsState, modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(color = Color.White)
     ) {
-        ImageProduct(modifier = modifier, details.image)
-        Name(details.name)
+        ImageProduct(imageUrl = details.image, modifier = Modifier)
+        Name(text = details.name)
         Column(
             modifier = modifier.align(Alignment.End)
         ) {
             DiscountText(
-                isVisible = details.hasDiscount,
                 text = details.discount,
-                modifier = modifier.align(Alignment.End)
+                modifier = modifier.align(Alignment.End),
+                isVisible = details.hasDiscount
             )
-            PriseProduct(details.price, modifier = modifier.align(Alignment.End))
+            PriseProduct(prise = details.price, modifier = modifier.align(Alignment.End))
             AddToCartBtn()
         }
     }
 }
 
 @Composable
-private fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
+private fun ImageProduct(imageUrl: String, modifier: Modifier = Modifier) {
     Image(
         painter = rememberGlidePainter(request = imageUrl),
         contentDescription = "",
@@ -114,10 +107,10 @@ private fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
 }
 
 @Composable
-private fun Name(name: String, modifier: Modifier = Modifier) {
+private fun Name(text: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier,
-        text = name,
+        text = text,
         color = Color.Black,
         fontSize = 24.sp
     )

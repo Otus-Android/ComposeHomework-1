@@ -70,7 +70,7 @@ fun ProductListScreen(
     ) {
         when {
             state.isLoading -> {
-                LoadingProgressBar()
+                LoadingProgressBar(modifier = modifier)
             }
 
             state.hasError -> {
@@ -83,10 +83,10 @@ fun ProductListScreen(
 
             else -> {
                 PullToRefreshContent(
-                    state,
-                    { viewModel.refresh() },
-                    navController,
-                    modifier
+                    state = state,
+                    onRefresh = { viewModel.refresh() },
+                    navController = navController,
+                    modifier = modifier
                 )
             }
         }
@@ -100,7 +100,7 @@ private fun PullToRefreshContent(
     state: ProductsScreenState,
     onRefresh: () -> Unit,
     navController: NavController,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val statePullToRefreshState = rememberPullToRefreshState()
     PullToRefreshBox(
@@ -118,19 +118,19 @@ private fun PullToRefreshContent(
             )
         }
     ) {
-        List(modifier, navController ,state)
+        List(state = state, navController = navController, modifier = modifier)
     }
 }
 
 @Composable
 private fun List(
-    modifier: Modifier,
+    state: ProductsScreenState,
     navController: NavController,
-    state: ProductsScreenState
+    modifier: Modifier
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(state.productListState) {
-            Product(it,navController,  modifier)
+            Product(productState = it, navController = navController, modifier = modifier)
         }
     }
 }
@@ -159,13 +159,13 @@ private fun Product(
                 .weight(1f)
                 .height(130.dp)
         ) {
-            ImageProduct(modifier, productState.image)
+            ImageProduct(imageUrl = productState.image, modifier = modifier)
             DiscountText(
-                productState.hasDiscount,
-                productState.discount,
-                modifier
+                text = productState.discount,
+                modifier = modifier
                     .align(Alignment.TopEnd)
-                    .padding(8.dp)
+                    .padding(8.dp),
+                isVisible = productState.hasDiscount,
             )
         }
         Column(
@@ -177,14 +177,14 @@ private fun Product(
 
         ) {
 
-            Name(name = productState.name, modifier = modifier)
+            Name(text = productState.name, modifier = modifier)
             Prise(prise = productState.price, modifier = modifier.align(Alignment.End))
         }
     }
 }
 
 @Composable
-private fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
+private fun ImageProduct(imageUrl: String, modifier: Modifier = Modifier) {
     Image(
         painter = rememberGlidePainter(request = imageUrl),
         contentDescription = "",
@@ -197,18 +197,16 @@ private fun ImageProduct(modifier: Modifier = Modifier, imageUrl: String) {
 }
 
 @Composable
-private fun Name(name: String, modifier: Modifier = Modifier) {
+private fun Name(text: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.fillMaxWidth(),
-        text = name,
+        text = text,
         color = Color.Black,
         fontSize = 18.sp,
         maxLines = 2,
         fontWeight = FontWeight.Bold,
         overflow = TextOverflow.Ellipsis,
-
-        )
-
+    )
 }
 
 @Composable
@@ -224,6 +222,5 @@ private fun Prise(prise: String, modifier: Modifier = Modifier) {
         color = colorResource(id = ru.otus.common.ui.R.color.purple_500),
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp
-
     )
 }

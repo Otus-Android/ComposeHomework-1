@@ -58,7 +58,7 @@ fun PromoListScreen(
     ) {
         when {
             state.isLoading -> {
-                LoadingProgressBar()
+                LoadingProgressBar(modifier = modifier)
             }
 
             state.hasError -> {
@@ -71,9 +71,9 @@ fun PromoListScreen(
 
             else -> {
                 PullToRefreshContent(
-                    state,
-                    { viewModel.refresh() },
-                    modifier
+                    state = state,
+                    onRefresh = { viewModel.refresh() },
+                    modifier = modifier
                 )
             }
         }
@@ -103,18 +103,18 @@ private fun PullToRefreshContent(
             )
         }
     ) {
-        List(modifier, state)
+        List(state = state, modifier = modifier)
     }
 }
 
 @Composable
 private fun List(
-    modifier: Modifier,
-    state: PromoScreenState
+    state: PromoScreenState,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(state.promoListState) {
-            Promo(it, modifier)
+            Promo(promoState = it, modifier = modifier)
         }
     }
 }
@@ -123,13 +123,13 @@ private fun List(
 @Composable
 private fun Promo(promoState: PromoState, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        PromoImage(modifier, promoState.image)
+        PromoImage(imageUrl = promoState.image, modifier = Modifier)
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .height(100.dp)
                 .align(Alignment.BottomCenter)
                 .background(
@@ -143,14 +143,14 @@ private fun Promo(promoState: PromoState, modifier: Modifier = Modifier) {
                 .padding(10.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
-            Name(promoState.name)
-            Description(promoState.description)
+            Name(text = promoState.name)
+            Description(text = promoState.description)
         }
     }
 }
 
 @Composable
-private fun PromoImage(modifier: Modifier = Modifier, imageUrl: String) {
+private fun PromoImage(imageUrl: String, modifier: Modifier = Modifier) {
     Image(
         painter = rememberGlidePainter(request = imageUrl),
         contentDescription = "",
@@ -163,21 +163,20 @@ private fun PromoImage(modifier: Modifier = Modifier, imageUrl: String) {
 }
 
 @Composable
-private fun Name(name: String, modifier: Modifier = Modifier) {
+private fun Name(text: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.fillMaxWidth(),
-        text = name,
+        text = text,
         color = Color.White,
         fontSize = 24.sp,
     )
-
 }
 
 @Composable
-private fun Description(description: String, modifier: Modifier = Modifier) {
+private fun Description(text: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.fillMaxWidth(),
-        text = description,
+        text = text,
         color = Color.White,
         fontSize = 14.sp,
     )

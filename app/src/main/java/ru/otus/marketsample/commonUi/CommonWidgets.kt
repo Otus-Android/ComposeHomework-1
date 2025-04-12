@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,9 +32,9 @@ import kotlin.math.sqrt
 
 @Composable
 fun DiscountText(
-    isVisible: Boolean = false,
     text: String,
     modifier: Modifier = Modifier,
+    isVisible: Boolean = false,
 
     ) {
     val shape = RoundedCornerShape(
@@ -46,7 +44,6 @@ fun DiscountText(
         bottomStart = 40.dp
     )
     if (isVisible) {
-
         Text(
             text = text,
             color = Color.White,
@@ -99,9 +96,9 @@ fun Modifier.gradientBackground(colors: List<Color>, angle: Float) = this.then(
 )
 
 @Composable
-fun LoadingProgressBar() {
+fun LoadingProgressBar(modifier: Modifier = Modifier) {
     CircularProgressIndicator(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     )
