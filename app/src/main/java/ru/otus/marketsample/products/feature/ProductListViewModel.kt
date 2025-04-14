@@ -50,7 +50,6 @@ class ProductListViewModel(
                     screenState.copy(
                         isRefreshing = false,
                     )
-
                 }
             }
             .catch {
