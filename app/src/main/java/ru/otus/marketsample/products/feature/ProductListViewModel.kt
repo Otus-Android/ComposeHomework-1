@@ -46,7 +46,7 @@ class ProductListViewModel(
                 _state.update { screenState ->
                     screenState.copy(
                         hasError = true,
-                        errorProvider = { context -> context.getString(R.string.error_wile_loading_data) }
+                        errorProvider = { context -> context.getString(R.string.error_while_loading_data) }
                     )
                 }
             }
