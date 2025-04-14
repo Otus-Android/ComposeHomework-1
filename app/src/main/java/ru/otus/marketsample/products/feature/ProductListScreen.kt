@@ -70,7 +70,7 @@ fun ProductListScreen(
     ) {
         when {
             state.isLoading -> {
-                LoadingProgressBar(modifier = modifier)
+                LoadingProgressBar()
             }
 
             state.hasError -> {
@@ -86,7 +86,6 @@ fun ProductListScreen(
                     state = state,
                     onRefresh = { viewModel.refresh() },
                     navController = navController,
-                    modifier = modifier
                 )
             }
         }
@@ -118,7 +117,7 @@ private fun PullToRefreshContent(
             )
         }
     ) {
-        List(state = state, navController = navController, modifier = modifier)
+        List(state = state, navController = navController)
     }
 }
 
@@ -126,11 +125,11 @@ private fun PullToRefreshContent(
 private fun List(
     state: ProductsScreenState,
     navController: NavController,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(state.productListState) {
-            Product(productState = it, navController = navController, modifier = modifier)
+            Product(productState = it, navController = navController)
         }
     }
 }
@@ -155,11 +154,11 @@ private fun Product(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .weight(1f)
                 .height(130.dp)
         ) {
-            ImageProduct(imageUrl = productState.image, modifier = modifier)
+            ImageProduct(imageUrl = productState.image)
             DiscountText(
                 text = productState.discount,
                 modifier = modifier
@@ -177,7 +176,7 @@ private fun Product(
 
         ) {
 
-            Name(text = productState.name, modifier = modifier)
+            Name(text = productState.name)
             Prise(prise = productState.price, modifier = modifier.align(Alignment.End))
         }
     }

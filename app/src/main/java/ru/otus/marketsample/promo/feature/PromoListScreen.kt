@@ -58,7 +58,7 @@ fun PromoListScreen(
     ) {
         when {
             state.isLoading -> {
-                LoadingProgressBar(modifier = modifier)
+                LoadingProgressBar()
             }
 
             state.hasError -> {
@@ -72,8 +72,7 @@ fun PromoListScreen(
             else -> {
                 PullToRefreshContent(
                     state = state,
-                    onRefresh = { viewModel.refresh() },
-                    modifier = modifier
+                    onRefresh = { viewModel.refresh() }
                 )
             }
         }
@@ -85,7 +84,7 @@ fun PromoListScreen(
 private fun PullToRefreshContent(
     state: PromoScreenState,
     onRefresh: () -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val statePullToRefreshState = rememberPullToRefreshState()
     PullToRefreshBox(
@@ -103,7 +102,7 @@ private fun PullToRefreshContent(
             )
         }
     ) {
-        List(state = state, modifier = modifier)
+        List(state = state)
     }
 }
 
@@ -114,7 +113,7 @@ private fun List(
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(state.promoListState) {
-            Promo(promoState = it, modifier = modifier)
+            Promo(promoState = it)
         }
     }
 }
@@ -127,7 +126,7 @@ private fun Promo(promoState: PromoState, modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        PromoImage(imageUrl = promoState.image, modifier = Modifier)
+        PromoImage(imageUrl = promoState.image)
         Column(
             modifier = Modifier
                 .height(100.dp)

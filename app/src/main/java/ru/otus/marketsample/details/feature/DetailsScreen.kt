@@ -52,7 +52,7 @@ fun DetailsScreen(viewModel: DetailsViewModel, modifier: Modifier = Modifier) {
     ) {
         when {
             state.isLoading -> {
-                LoadingProgressBar(modifier = modifier)
+                LoadingProgressBar()
             }
 
             state.hasError -> {
@@ -64,7 +64,7 @@ fun DetailsScreen(viewModel: DetailsViewModel, modifier: Modifier = Modifier) {
             }
 
             else -> {
-                Details(details = state.detailsState, modifier = Modifier)
+                Details(details = state.detailsState)
             }
         }
     }
@@ -77,7 +77,7 @@ private fun Details(details: DetailsState, modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(color = Color.White)
     ) {
-        ImageProduct(imageUrl = details.image, modifier = Modifier)
+        ImageProduct(imageUrl = details.image)
         Name(text = details.name)
         Column(
             modifier = modifier.align(Alignment.End)
@@ -127,9 +127,9 @@ private fun PriseProduct(prise: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun AddToCartBtn() {
+private fun AddToCartBtn(modifier: Modifier = Modifier) {
     Button(
-        modifier = Modifier.padding(horizontal = 10.dp),
+        modifier = modifier.padding(horizontal = 10.dp),
         onClick = {}
     ) {
         Text(
