@@ -1,4 +1,4 @@
-package ru.otus.marketsample.promo.feature.adapter
+package ru.otus.marketsample.promo.feature.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

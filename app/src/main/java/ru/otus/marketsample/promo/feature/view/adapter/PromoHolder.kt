@@ -1,4 +1,4 @@
-package ru.otus.marketsample.promo.feature.adapter
+package ru.otus.marketsample.promo.feature.view.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load

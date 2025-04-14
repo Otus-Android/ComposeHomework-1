@@ -1,4 +1,4 @@
-package ru.otus.marketsample.products.feature.adapter
+package ru.otus.marketsample.products.feature.view.adapter
 
 import android.view.View.GONE
 import android.view.View.VISIBLE
