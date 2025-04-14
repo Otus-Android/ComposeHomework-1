@@ -2,6 +2,7 @@ package ru.otus.marketsample.promo.feature
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,13 +33,23 @@ class PromoListViewModel(
                 promos.map(promoStateFactory::map)
             }
             .onStart {
-                _state.update { screenState -> screenState.copy(isLoading = true) }
+
+                if (state.value.promoListState.isEmpty())
+                    _state.update { screenState -> screenState.copy(isLoading = true) }
+                else
+                    _state.update { screenState -> screenState.copy(isRefreshing = true) }
             }
             .onEach { promoListState ->
                 _state.update { screenState ->
                     screenState.copy(
                         isLoading = false,
                         promoListState = promoListState,
+                    )
+                }
+                delay(500)
+                _state.update { screenState ->
+                    screenState.copy(
+                        isRefreshing = false,
                     )
                 }
             }

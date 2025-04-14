@@ -15,7 +15,7 @@ lifecycle-runtime-ktx = "2.8.7"
 navigation-fragment-ktx = "2.8.9"
 navigation-ui-ktx = "2.8.9"
 coil = "2.7.0"
-gson = "2.10.1"
+gson = "2.11.0"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
 swiperefreshlayout = "1.1.0"
@@ -25,6 +25,18 @@ serializationJson = "1.8.0"
 androidXDatastore = "1.1.4"
 kotlinx-coroutines-rx2 = "1.7.3"
 dagger = "2.55"
+runtimeAndroid = "1.7.8"
+uiToolingPreviewAndroid = "1.7.8"
+activityCompose = "1.10.1"
+composeBom = "2025.03.01"
+navCompose = "2.8.9"
+constraintLayoutCompose = "1.1.1"
+ksp = "2.0.20-1.0.25"
+glide = "4.16.0"
+accompanistGlide = "0.12.0"
+accompanistGlideLegacy = "0.6.2"
+accompanistCoil = "0.12.0"
+accompanistSwipeRefresh = "0.16.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -54,6 +66,22 @@ kotlinx-serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 kotlinx-coroutines-rx2 = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-rx2",  version.ref = "kotlinx-coroutines-rx2" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 daggerCompiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroid" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navCompose" }
+androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayoutCompose" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+bumptech-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+accompanist-coil = { group = "com.google.accompanist", name = "accompanist-coil", version.ref = "accompanistCoil" }
+accompanist-swiperefresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "accompanistSwipeRefresh" }
+accompanist-glide = { group = "com.google.accompanist", name = "accompanist-glide", version.ref = "accompanistGlide" }
+accompanist-glide-legacy = { group = "dev.chrisbanes.accompanist", name = "accompanist-glide", version.ref = "accompanistGlideLegacy" }
+
 
 [bundles]
 network = ["okhttp", "okhttp-logging-interceptor", "retrofit", "retrofit-converter-gson"]
@@ -64,4 +92,6 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 

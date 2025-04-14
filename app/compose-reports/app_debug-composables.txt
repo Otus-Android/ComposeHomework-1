@@ -1,0 +1,75 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun DetailsScreenPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun DetailsScreen(
+  unstable viewModel: DetailsViewModel?
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductDetails(
+  stable details: DetailsState
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun AddToCartBtn()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PriseProduct(
+  stable prise: String
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun NameProduct(
+  stable name: String
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ImageProduct(
+  stable modifier: Modifier? = @static Companion
+  stable imageUrl: String
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun DiscountText(
+  stable isVisible: Boolean = @static false
+  stable text: String
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProgressBar(
+  stable isVisible: Boolean = @static false
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable fun ProductListScreenPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductListScreen(
+  unstable viewModel: ProductListViewModel?
+  unstable navController: NavController
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ItemProduct(
+  stable productState: ProductState
+  unstable navController: NavController
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ImageProduct(
+  stable modifier: Modifier? = @static Companion
+  stable imageUrl: String
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductName(
+  stable name: String
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductPrise(
+  stable prise: String
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoListScreenPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoListScreen(
+  unstable viewModel: PromoListViewModel?
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ItemPromo(
+  stable promoState: PromoState
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoImage(
+  stable modifier: Modifier? = @static Companion
+  stable imageUrl: String
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun NamePromo(
+  stable name: String
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun DescriptionPromo(
+  stable description: String
+  stable modifier: Modifier? = @static Companion
+)
