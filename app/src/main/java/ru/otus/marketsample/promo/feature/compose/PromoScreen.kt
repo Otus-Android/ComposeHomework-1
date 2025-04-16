@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import ru.otus.marketsample.promo.feature.PromoScreenState
 import ru.otus.marketsample.promo.feature.PromoState
@@ -97,17 +98,19 @@ private fun PromoListItem(
                                 Color(0x00000000),
                                 Color(0xaa000000),
                             ),
-                            start = Offset(size.width / 2, 0f),
-                            end = Offset(size.width / 2, size.height)
+                            start = Offset(size.width, 0f),
+                            end = Offset(size.width, size.height)
                         ),
                     )
                 }
+                .zIndex(1f)
         )
 
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(10.dp)
+                .zIndex(2f)
         ) {
             Text(
                 text = promoState.name,

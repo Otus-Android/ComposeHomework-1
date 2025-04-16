@@ -4,10 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.toRoute
 import ru.otus.marketsample.details.feature.DetailsViewModel
 import ru.otus.marketsample.details.feature.compose.DetailsScreen
 import ru.otus.marketsample.details.feature.di.DaggerDetailsComponent
@@ -22,8 +24,13 @@ import ru.otus.marketsample.promo.feature.di.DaggerPromoComponent
 @Composable
 fun MarketSampleNavGraph(
     navigationState: NavigationState,
+    modifier: Modifier,
 ) {
-    NavHost(navController = navigationState.navHostController, startDestination = Route.Products) {
+    NavHost(
+        navController = navigationState.navHostController,
+        startDestination = Route.Products,
+        modifier = modifier
+    ) {
         navigation<Route.Products>(startDestination = ProductsRoute.List) {
             composable<ProductsRoute.List> {
                 val component = getApplicationComponent()
@@ -32,7 +39,7 @@ fun MarketSampleNavGraph(
                         .create(component)
                 }
                 val viewModel = viewModel(
-                    ProductListViewModel::class,
+                    modelClass = ProductListViewModel::class,
                     viewModelStoreOwner = it,
                     factory = productListComponent.getProductListViewModelFactory()
                 )
@@ -43,19 +50,21 @@ fun MarketSampleNavGraph(
                     state = state,
                     errorHasShown = { viewModel.errorHasShown() },
                     isRefreshing = state.isRefreshing,
+                    onItemClick = { id -> navigationState.navigateToProductDetails(id) },
                     onRefresh = viewModel::refresh
                 )
             }
 
             composable<ProductsRoute.Details> {
+                val detailsRoute = it.toRoute<ProductsRoute.Details>()
                 val component = getApplicationComponent()
                 val productListComponent = remember {
                     DaggerDetailsComponent.factory()
-                        .create(component, it.id)
+                        .create(component, detailsRoute.id)
                 }
 
                 val viewModel = viewModel(
-                    DetailsViewModel::class,
+                    modelClass = DetailsViewModel::class,
                     viewModelStoreOwner = it,
                     factory = productListComponent.getDetailsViewModelFactory()
                 )
@@ -77,7 +86,7 @@ fun MarketSampleNavGraph(
             }
 
             val viewModel = viewModel(
-                PromoListViewModel::class,
+                modelClass = PromoListViewModel::class,
                 viewModelStoreOwner = it,
                 factory = promoListComponent.getPromoViewModelFactory()
             )

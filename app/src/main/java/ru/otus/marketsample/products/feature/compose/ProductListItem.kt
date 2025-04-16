@@ -56,7 +56,9 @@ fun ProductListItem(
                     .clip(shape = RoundedCornerShape(12.dp))
             )
 
-            Discount(productState.discount, Modifier.align(Alignment.TopEnd))
+            if (productState.discount.isNotBlank()) {
+                Discount(productState.discount, Modifier.align(Alignment.TopEnd))
+            }
         }
         Column(
             modifier = Modifier

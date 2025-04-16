@@ -57,11 +57,11 @@ class ProductListFragment : Fragment() {
 
         binding.recyclerView.adapter = ProductsAdapter(
             onItemClicked = { productId ->
-                requireActivity().findNavController(R.id.nav_host_activity_main)
-                    .navigate(
-                        resId = R.id.action_main_to_details,
-                        args = bundleOf("productId" to productId),
-                    )
+//                requireActivity().findNavController(R.id.nav_host_activity_main)
+//                    .navigate(
+//                        resId = R.id.action_main_to_details,
+//                        args = bundleOf("productId" to productId),
+//                    )
             }
         )
         binding.recyclerView.layoutManager = LinearLayoutManager(context)

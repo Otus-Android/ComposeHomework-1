@@ -24,6 +24,7 @@ fun ProductListScreen(
     errorHasShown: () -> Unit,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
+    onItemClick: (id: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -48,7 +49,7 @@ fun ProductListScreen(
                         items(state.productListState, { it.id }) { productState ->
                             ProductListItem(
                                 productState = productState,
-                                onItemClick = { },
+                                onItemClick = onItemClick,
                             )
                         }
                     }
@@ -71,6 +72,7 @@ private fun ProductListScreenPreview_Loading() {
             ),
             errorHasShown = {},
             isRefreshing = false,
+            onItemClick = { },
             onRefresh = { },
         )
     }
@@ -98,6 +100,7 @@ private fun ProductListScreenPreview_Content() {
             ),
             isRefreshing = false,
             onRefresh = { },
+            onItemClick = { },
             errorHasShown = {}
         )
     }
@@ -125,6 +128,7 @@ private fun ProductListScreenPreview_IsRefreshing() {
             ),
             isRefreshing = true,
             onRefresh = { },
+            onItemClick = { },
             errorHasShown = {}
         )
     }
