@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import ru.otus.marketsample.promo.domain.ConsumePromosUseCase
 import ru.otus.marketsample.R
+import ru.otus.marketsample.promo.domain.ConsumePromosUseCase
 
 class PromoListViewModel(
     private val promoStateFactory: PromoStateFactory,
@@ -39,6 +39,7 @@ class PromoListViewModel(
                     screenState.copy(
                         isLoading = false,
                         promoListState = promoListState,
+                        isRefreshing = false
                     )
                 }
             }
@@ -54,6 +55,7 @@ class PromoListViewModel(
     }
 
     fun refresh() {
+        _state.update { it.copy(isRefreshing = true) }
         requestPromos()
     }
 

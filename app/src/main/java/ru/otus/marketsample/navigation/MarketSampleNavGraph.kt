@@ -15,6 +15,9 @@ import ru.otus.marketsample.getApplicationComponent
 import ru.otus.marketsample.products.feature.ProductListViewModel
 import ru.otus.marketsample.products.feature.compose.ProductListScreen
 import ru.otus.marketsample.products.feature.di.DaggerProductListComponent
+import ru.otus.marketsample.promo.feature.PromoListViewModel
+import ru.otus.marketsample.promo.feature.compose.PromoScreen
+import ru.otus.marketsample.promo.feature.di.DaggerPromoComponent
 
 @Composable
 fun MarketSampleNavGraph(
@@ -67,7 +70,26 @@ fun MarketSampleNavGraph(
         }
 
         composable<Route.Promo> {
+            val component = getApplicationComponent()
+            val promoListComponent = remember {
+                DaggerPromoComponent.factory()
+                    .create(component)
+            }
 
+            val viewModel = viewModel(
+                PromoListViewModel::class,
+                viewModelStoreOwner = it,
+                factory = promoListComponent.getPromoViewModelFactory()
+            )
+
+            val state by viewModel.state.collectAsState()
+
+            PromoScreen(
+                state = state,
+                errorHasShown = viewModel::errorHasShown,
+                isRefreshing = state.isRefreshing,
+                onRefresh = viewModel::refresh,
+            )
         }
     }
 }

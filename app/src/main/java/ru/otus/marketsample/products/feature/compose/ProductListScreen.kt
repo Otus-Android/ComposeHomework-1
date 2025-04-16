@@ -45,7 +45,7 @@ fun ProductListScreen(
                     onRefresh = onRefresh,
                 ) {
                     LazyColumn {
-                        items(state.productListState) { productState ->
+                        items(state.productListState, { it.id }) { productState ->
                             ProductListItem(
                                 productState = productState,
                                 onItemClick = { },
