@@ -8,6 +8,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import ru.otus.marketsample.details.feature.DetailsViewModel
+import ru.otus.marketsample.details.feature.compose.DetailsScreen
+import ru.otus.marketsample.details.feature.di.DaggerDetailsComponent
 import ru.otus.marketsample.getApplicationComponent
 import ru.otus.marketsample.products.feature.ProductListViewModel
 import ru.otus.marketsample.products.feature.compose.ProductListScreen
@@ -25,16 +28,42 @@ fun MarketSampleNavGraph(
                     DaggerProductListComponent.factory()
                         .create(component)
                 }
-                val viewModel = viewModel(ProductListViewModel::class, viewModelStoreOwner = it, factory = productListComponent.getProductListViewModelFactory())
+                val viewModel = viewModel(
+                    ProductListViewModel::class,
+                    viewModelStoreOwner = it,
+                    factory = productListComponent.getProductListViewModelFactory()
+                )
 
                 val state by viewModel.state.collectAsState()
 
                 ProductListScreen(
                     state = state,
-                    errorHasShown = { viewModel.errorHasShown() }
+                    errorHasShown = { viewModel.errorHasShown() },
+                    isRefreshing = state.isRefreshing,
+                    onRefresh = viewModel::refresh
                 )
             }
-            composable<ProductsRoute.Details> {  }
+
+            composable<ProductsRoute.Details> {
+                val component = getApplicationComponent()
+                val productListComponent = remember {
+                    DaggerDetailsComponent.factory()
+                        .create(component, it.id)
+                }
+
+                val viewModel = viewModel(
+                    DetailsViewModel::class,
+                    viewModelStoreOwner = it,
+                    factory = productListComponent.getDetailsViewModelFactory()
+                )
+
+                val state by viewModel.state.collectAsState()
+
+                DetailsScreen(
+                    state = state,
+                    errorHasShown = viewModel::errorHasShown
+                )
+            }
         }
 
         composable<Route.Promo> {

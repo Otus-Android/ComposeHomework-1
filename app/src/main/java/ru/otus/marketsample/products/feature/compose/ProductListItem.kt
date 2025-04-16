@@ -39,14 +39,6 @@ fun ProductListItem(
     onItemClick: (id: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val purple200 = LocalCustomColors.current.purple200
-    val purple500 = LocalCustomColors.current.purple500
-    val roundedCornerShape = RoundedCornerShape(
-        topEnd = 6.dp,
-        topStart = 25.dp,
-        bottomStart = 25.dp,
-        bottomEnd = 20.dp
-    )
 
     Row(
         modifier = modifier
@@ -64,35 +56,7 @@ fun ProductListItem(
                     .clip(shape = RoundedCornerShape(12.dp))
             )
 
-
-            Text(
-                text = productState.discount,
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(vertical = 8.dp, horizontal = 8.dp)
-                    .clip(roundedCornerShape)
-                    .drawBehind {
-                        drawRect(
-                            brush = Brush.linearGradient(
-                                colors = listOf(purple200, purple500),
-                                start = Offset(0f, size.height),
-                                end = Offset(size.width, 0f)
-                            ),
-                        )
-                    }
-                    .border(
-                        width = 2.dp,
-                        color = Color.White,
-                        shape = roundedCornerShape
-                    )
-                    .padding(
-                        vertical = 4.dp,
-                        horizontal = 10.dp
-                    )
-            )
+            Discount(productState.discount, Modifier.align(Alignment.TopEnd))
         }
         Column(
             modifier = Modifier
@@ -112,7 +76,7 @@ fun ProductListItem(
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = productState.price,
-                    color = purple500,
+                    color = LocalCustomColors.current.purple500,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     modifier = Modifier
@@ -123,6 +87,49 @@ fun ProductListItem(
             }
         }
     }
+}
+
+@Composable
+fun Discount(
+    discount: String,
+    modifier: Modifier = Modifier,
+) {
+    val purple200 = LocalCustomColors.current.purple200
+    val purple500 = LocalCustomColors.current.purple500
+    val roundedCornerShape = RoundedCornerShape(
+        topEnd = 6.dp,
+        topStart = 25.dp,
+        bottomStart = 25.dp,
+        bottomEnd = 20.dp
+    )
+
+    Text(
+        text = discount,
+        color = Color.White,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        modifier = modifier
+            .padding(vertical = 8.dp, horizontal = 8.dp)
+            .clip(roundedCornerShape)
+            .drawBehind {
+                drawRect(
+                    brush = Brush.linearGradient(
+                        colors = listOf(purple200, purple500),
+                        start = Offset(0f, size.height),
+                        end = Offset(size.width, 0f)
+                    ),
+                )
+            }
+            .border(
+                width = 2.dp,
+                color = Color.White,
+                shape = roundedCornerShape
+            )
+            .padding(
+                vertical = 4.dp,
+                horizontal = 10.dp
+            )
+    )
 }
 
 @Composable

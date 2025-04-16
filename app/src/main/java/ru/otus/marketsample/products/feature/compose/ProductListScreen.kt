@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,10 +17,13 @@ import ru.otus.marketsample.products.feature.ProductState
 import ru.otus.marketsample.products.feature.ProductsScreenState
 import theme.MarketSampleTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductListScreen(
     state: ProductsScreenState,
     errorHasShown: () -> Unit,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -35,12 +40,17 @@ fun ProductListScreen(
             }
 
             else -> {
-                LazyColumn {
-                    items(state.productListState) { productState ->
-                        ProductListItem(
-                            productState = productState,
-                            onItemClick = { },
-                        )
+                PullToRefreshBox(
+                    isRefreshing = isRefreshing,
+                    onRefresh = onRefresh,
+                ) {
+                    LazyColumn {
+                        items(state.productListState) { productState ->
+                            ProductListItem(
+                                productState = productState,
+                                onItemClick = { },
+                            )
+                        }
                     }
                 }
             }
@@ -59,7 +69,9 @@ private fun ProductListScreenPreview_Loading() {
                 hasError = false,
                 errorProvider = { "" }
             ),
-            errorHasShown = {}
+            errorHasShown = {},
+            isRefreshing = false,
+            onRefresh = { },
         )
     }
 }
@@ -84,6 +96,35 @@ private fun ProductListScreenPreview_Content() {
                 hasError = false,
                 errorProvider = { "" }
             ),
+            isRefreshing = false,
+            onRefresh = { },
+            errorHasShown = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun ProductListScreenPreview_IsRefreshing() {
+    MarketSampleTheme {
+        ProductListScreen(
+            state = ProductsScreenState(
+                isLoading = false,
+                productListState = List(10) {
+                    ProductState(
+                        id = it.toString(),
+                        name = "Name $it",
+                        image = "url",
+                        price = "1 000 $",
+                        hasDiscount = true,
+                        discount = "-20%"
+                    )
+                },
+                hasError = false,
+                errorProvider = { "" }
+            ),
+            isRefreshing = true,
+            onRefresh = { },
             errorHasShown = {}
         )
     }

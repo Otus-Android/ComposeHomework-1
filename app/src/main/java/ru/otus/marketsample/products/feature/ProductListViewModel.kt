@@ -39,6 +39,7 @@ class ProductListViewModel(
                     screenState.copy(
                         isLoading = false,
                         productListState = productListState,
+                        isRefreshing = false
                     )
                 }
             }
@@ -54,6 +55,7 @@ class ProductListViewModel(
     }
 
     fun refresh() {
+        _state.update { it.copy(isRefreshing = true) }
         requestProducts()
     }
 
