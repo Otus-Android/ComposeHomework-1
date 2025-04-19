@@ -1,9 +1,11 @@
 package ru.otus.marketsample.products.feature
 
 import android.content.Context
+import androidx.compose.runtime.Immutable
 
 typealias ErrorProvider = (Context) -> String
 
+@Immutable
 data class ProductsScreenState(
     val isLoading: Boolean = false,
     val productListState: List<ProductState> = emptyList(),
