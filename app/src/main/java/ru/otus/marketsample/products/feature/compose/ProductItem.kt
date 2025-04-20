@@ -103,7 +103,7 @@ fun PriceBadge(
             )
     ) {
         Text(
-            text = stringResource(R.string.price_with_arg, price) ,
+            text = stringResource(R.string.price_with_arg, price),
             style = TextStyle.Default.copy(
                 color = colorResource(UiR.color.purple_500),
                 fontWeight = FontWeight.Bold,
