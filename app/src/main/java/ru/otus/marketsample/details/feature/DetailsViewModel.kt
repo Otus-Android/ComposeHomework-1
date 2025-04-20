@@ -15,11 +15,13 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import ru.otus.marketsample.details.domain.ConsumeProductDetailsUseCase
 import ru.otus.marketsample.R
+import javax.inject.Inject
+import javax.inject.Named
 
-class DetailsViewModel(
+class DetailsViewModel @Inject constructor(
     private val consumeProductDetailsUseCase: ConsumeProductDetailsUseCase,
     private val detailsStateFactory: DetailsStateFactory,
-    private val productId: String,
+    @Named("productId") private val productId: String,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DetailsScreenState())

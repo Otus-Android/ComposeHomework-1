@@ -4,6 +4,7 @@ import dagger.Component
 import ru.otus.common.data.products.ProductRepository
 import ru.otus.common.data.promo.PromoRepository
 import ru.otus.common.di.FeatureScope
+import ru.otus.marketsample.products.feature.ProductListViewModel
 import ru.otus.marketsample.products.feature.view.ProductListFragment
 
 @FeatureScope
@@ -18,6 +19,7 @@ interface ProductListComponent {
     }
 
     fun inject(productListFragment: ProductListFragment)
+    fun viewModel(): ProductListViewModel
 }
 
 interface ProductListComponentDependencies {

@@ -14,8 +14,9 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import ru.otus.marketsample.products.domain.ConsumeProductsUseCase
 import ru.otus.marketsample.R
+import javax.inject.Inject
 
-class ProductListViewModel(
+class ProductListViewModel @Inject constructor(
     private val consumeProductsUseCase: ConsumeProductsUseCase,
     private val productStateFactory: ProductStateFactory,
 ) : ViewModel() {
