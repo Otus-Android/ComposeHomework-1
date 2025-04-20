@@ -37,14 +37,18 @@ fun DiscountBadge(
         )
     }
 
-    val fontSize = when(badgeSize) {
-        BadgeSize.L -> 20.sp
-        BadgeSize.S -> 14.sp
+    val fontSize = remember {
+        when(badgeSize) {
+            BadgeSize.L -> 20.sp
+            BadgeSize.S -> 14.sp
+        }
     }
 
-    val fontWeight = when(badgeSize) {
-        BadgeSize.L -> FontWeight.Normal
-        BadgeSize.S -> FontWeight.Bold
+    val fontWeight = remember {
+        when(badgeSize) {
+            BadgeSize.L -> FontWeight.Normal
+            BadgeSize.S -> FontWeight.Bold
+        }
     }
 
     Box(
