@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -43,6 +44,7 @@ fun ProductItem(
                 vertical = 24.dp,
                 horizontal = 16.dp,
             )
+            .height(130.dp)
     ) {
         Box(
             modifier = Modifier.weight(1f),
@@ -50,7 +52,6 @@ fun ProductItem(
         ) {
             AsyncImage(
                 modifier = Modifier
-                    .height(130.dp)
                     .clip(RoundedCornerShape(12.dp)),
                 model = state.image,
                 contentDescription = null,
@@ -80,26 +81,34 @@ fun ProductItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = colorResource(UiR.color.price_bg),
-                        shape = RoundedCornerShape(8.dp),
-                    )
-                    .padding(
-                        horizontal = 12.dp,
-                        vertical = 8.dp,
-                    )
-            ) {
-                Text(
-                    text = stringResource(R.string.price_with_arg, state.price) ,
-                    style = TextStyle.Default.copy(
-                        color = colorResource(UiR.color.purple_500),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                    )
-                )
-            }
+            Spacer(Modifier.weight(1f))
+            PriceBadge(state.price)
         }
+    }
+}
+
+@Composable
+fun PriceBadge(
+    price: String,
+) {
+    Box(
+        modifier = Modifier
+            .background(
+                color = colorResource(UiR.color.price_bg),
+                shape = RoundedCornerShape(8.dp),
+            )
+            .padding(
+                horizontal = 12.dp,
+                vertical = 8.dp,
+            )
+    ) {
+        Text(
+            text = stringResource(R.string.price_with_arg, price) ,
+            style = TextStyle.Default.copy(
+                color = colorResource(UiR.color.purple_500),
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+            )
+        )
     }
 }
