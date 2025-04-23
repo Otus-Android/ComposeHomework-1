@@ -1,0 +1,33 @@
+restartable skippable scheme("[0, [0]]") fun Inject(
+  stable <this>: PreviewHandler
+  stable content: Function2<Composer, Int, Unit>
+)
+restartable skippable scheme("[0, [0]]") fun AppTheme(
+  stable darkTheme: Boolean = @dynamic isSystemInDarkTheme($composer, 0)
+  stable content: Function2<Composer, Int, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductsScreen(
+  unstable viewModel: ProductListViewModel
+  stable onItemClicked: Function1<String, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductsReady(
+  unstable products: List<ProductState>
+  stable doRefresh: Function0<Unit>
+  stable onItemClicked: Function1<String, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductItem(
+  stable product: ProductState
+  stable modifier: Modifier? = @static Companion
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PreviewProductItem()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoListScreen(
+  unstable viewModel: PromoListViewModel
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoListReady(
+  unstable promos: List<PromoState>
+  stable doRefresh: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoItem(
+  stable promo: PromoState
+  stable modifier: Modifier? = @static Companion
+)
