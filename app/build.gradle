@@ -1,8 +1,11 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -34,17 +37,32 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
+}
+
+composeCompiler {
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
 dependencies {
     implementation project(":common:di")
     implementation project(":common:formatters")
     implementation project(":common:ui")
+    implementation project(":common:composeui")
     implementation project(":common:data:products")
     implementation project(":common:data:promo")
 
     implementation libs.core.ktx
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.compose.material
+    implementation libs.compose.ui
+    implementation libs.compose.ui.tooling
+    implementation libs.lifecycle.viewmodel.compose
+    implementation libs.lifecycle.runtime.compose
+    implementation libs.lifecycle.viewmodel.ktx
+    implementation libs.compose.runtime
+    implementation libs.kotlinx.coroutines.android
     implementation libs.appcompat
     implementation libs.material
     implementation libs.constraintlayout
@@ -56,6 +74,8 @@ dependencies {
     implementation libs.navigation.fragment.ktx
     implementation libs.navigation.ui.ktx
     implementation libs.coil
+    implementation libs.coil.compose
+    implementation libs.coil.network
     implementation libs.gson
     implementation libs.bundles.network
     implementation libs.kotlin.serialization
@@ -69,4 +89,21 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.espresso.core
+}
+
+subprojects {
+    tasks.withType(KotlinCompile).configureEach {
+        kotlinOptions {
+            freeCompilerArgs += [
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                            layout.buildDirectory.absolutePath + "/compose_metrics"
+            ]
+            freeCompilerArgs += [
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                            layout.buildDirectory.absolutePath + "/compose_metrics"
+            ]
+        }
+    }
 }

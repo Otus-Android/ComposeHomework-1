@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/navigation_main"
         android:name="ru.otus.marketsample.MainFragment"
-        android:label="@string/title_main"
-        tools:layout="@layout/fragment_product_list" />
+        android:label="@string/title_main" />
 
     <fragment
         android:id="@+id/product_details"

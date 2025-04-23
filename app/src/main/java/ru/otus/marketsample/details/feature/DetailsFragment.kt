@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import coil.load
+import coil3.load
 import kotlinx.coroutines.launch
 import ru.otus.common.di.findDependencies
 import ru.otus.marketsample.details.feature.di.DaggerDetailsComponent

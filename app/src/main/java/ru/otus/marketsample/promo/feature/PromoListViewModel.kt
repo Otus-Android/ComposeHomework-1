@@ -46,6 +46,7 @@ class PromoListViewModel(
                 _state.update { screenState ->
                     screenState.copy(
                         hasError = true,
+                        isLoading = false,
                         errorProvider = { context -> context.getString(R.string.error_wile_loading_data) }
                     )
                 }
