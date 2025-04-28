@@ -17,6 +17,7 @@ import ru.otus.marketsample.products.feature.ProductListViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductListScreen(
+    modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: ProductListViewModel,
 ) {
@@ -25,6 +26,7 @@ fun ProductListScreen(
     ErrorHandler(state.hasError) { viewModel.errorHasShown() }
 
     PullToRefreshBox(
+        modifier = modifier,
         isRefreshing = state.isLoading,
         onRefresh = viewModel::refresh,
     ) {

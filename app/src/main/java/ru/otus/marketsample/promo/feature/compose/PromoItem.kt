@@ -23,10 +23,11 @@ import ru.otus.marketsample.promo.feature.PromoState
 
 @Composable
 fun PromoItem(
+    modifier: Modifier = Modifier,
     state: PromoState,
 ) {
     Box(
-        modifier = Modifier.padding(10.dp),
+        modifier = modifier.padding(10.dp),
         contentAlignment = Alignment.BottomStart,
     ) {
         AsyncImage(

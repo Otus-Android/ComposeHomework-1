@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -19,12 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.otus.common.ui.R
 
+@Stable
 enum class BadgeSize {
     L, S
 }
 
 @Composable
 fun DiscountBadge(
+    modifier: Modifier = Modifier,
     badgeSize: BadgeSize = BadgeSize.S,
     discount: String
 ) {
@@ -52,7 +55,7 @@ fun DiscountBadge(
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
             .background(
                 brush = Brush.linearGradient(

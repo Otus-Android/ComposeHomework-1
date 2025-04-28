@@ -1,4 +1,5 @@
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun DiscountBadge(
+  stable modifier: Modifier? = @static Companion
   stable badgeSize: BadgeSize? = @static BadgeSize.S
   stable discount: String
 )
@@ -12,6 +13,7 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compo
   stable content: Function2<Composer, Int, Unit>
 )
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductDetailsScreen(
+  stable modifier: Modifier? = @static Companion
   unstable viewModel: DetailsViewModel
 )
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun BottomNavigationNavGraph(
@@ -30,20 +32,25 @@ restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun MarketSam
   unstable navController: NavHostController
 )
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductItem(
+  stable modifier: Modifier? = @static Companion
   stable state: ProductState
   stable onClick: Function0<Unit>
 )
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PriceBadge(
+  stable modifier: Modifier? = @static Companion
   stable price: String
 )
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductListScreen(
+  stable modifier: Modifier? = @static Companion
   unstable navController: NavController
   unstable viewModel: ProductListViewModel
 )
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoItem(
+  stable modifier: Modifier? = @static Companion
   stable state: PromoState
 )
 restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoListScreen(
+  stable modifier: Modifier? = @static Companion
   unstable viewModel: PromoListViewModel
 )
 inline fun daggerViewModel(

@@ -1,6 +1,6 @@
 package,name,composable,skippable,restartable,readonly,inline,isLambda,hasDefaults,defaultsGroup,groups,calls,
 ru.otus.marketsample.common.DiscountBadge,DiscountBadge,1,1,1,0,0,0,0,0,1,3,
-ru.otus.marketsample.common.ErrorHandler,ErrorHandler,1,1,1,0,0,0,0,0,1,1,
+ru.otus.marketsample.common.ErrorHandler,ErrorHandler,1,1,1,0,0,0,0,0,1,2,
 ru.otus.marketsample.common.Loader,Loader,1,1,1,0,0,0,0,0,1,1,
 ru.otus.marketsample.details.feature.compose.ProductDetailsScreen,ProductDetailsScreen,1,1,1,0,0,0,0,0,1,4,
 ru.otus.marketsample.navigation.BottomNavigationNavGraph,BottomNavigationNavGraph,1,1,1,0,0,0,0,0,1,1,

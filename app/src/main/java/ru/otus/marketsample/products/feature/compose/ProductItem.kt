@@ -33,11 +33,12 @@ import ru.otus.common.ui.R as UiR
 
 @Composable
 fun ProductItem(
+    modifier: Modifier = Modifier,
     state: ProductState,
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable { onClick.invoke() }
             .padding(
@@ -82,17 +83,18 @@ fun ProductItem(
                 overflow = TextOverflow.Ellipsis,
             )
             Spacer(Modifier.weight(1f))
-            PriceBadge(state.price)
+            PriceBadge(price = state.price)
         }
     }
 }
 
 @Composable
 fun PriceBadge(
+    modifier: Modifier = Modifier,
     price: String,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(
                 color = colorResource(UiR.color.price_bg),
                 shape = RoundedCornerShape(8.dp),

@@ -31,6 +31,7 @@ import ru.otus.common.ui.R as UiR
 
 @Composable
 fun ProductDetailsScreen(
+    modifier: Modifier = Modifier,
     viewModel: DetailsViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -38,7 +39,7 @@ fun ProductDetailsScreen(
 
     Loader(isLoading = state.isLoading) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .background(color = Color.White),
             horizontalAlignment = Alignment.End
