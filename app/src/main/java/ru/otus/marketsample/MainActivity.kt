@@ -1,16 +1,41 @@
 package ru.otus.marketsample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import ru.otus.marketsample.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import ru.otus.marketsample.navigation.MarketSampleNavGraph
 
-class MainActivity : AppCompatActivity() {
+val LocalSnackbar = staticCompositionLocalOf<SnackbarHostState> {
+    error("CompositionLocal LocalSnackbar not present")
+}
 
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContent {
+            val navController = rememberNavController()
+            val snackbarHostState = remember { SnackbarHostState() }
+            Scaffold(
+                snackbarHost = { SnackbarHost(snackbarHostState) },
+                content = { paddingValues ->
+                    CompositionLocalProvider(LocalSnackbar provides snackbarHostState) {
+                        MarketSampleNavGraph(
+                            modifier = Modifier.padding(paddingValues),
+                            navController = navController,
+                        )
+                    }
+                }
+            )
+        }
     }
 }

@@ -2,6 +2,7 @@ package ru.otus.marketsample.promo.feature
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,8 +14,9 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import ru.otus.marketsample.promo.domain.ConsumePromosUseCase
 import ru.otus.marketsample.R
+import javax.inject.Inject
 
-class PromoListViewModel(
+class PromoListViewModel @Inject constructor(
     private val promoStateFactory: PromoStateFactory,
     private val consumePromosUseCase: ConsumePromosUseCase,
 ) : ViewModel() {
@@ -38,7 +40,7 @@ class PromoListViewModel(
                 _state.update { screenState ->
                     screenState.copy(
                         isLoading = false,
-                        promoListState = promoListState,
+                        promoListState = promoListState.toImmutableList(),
                     )
                 }
             }

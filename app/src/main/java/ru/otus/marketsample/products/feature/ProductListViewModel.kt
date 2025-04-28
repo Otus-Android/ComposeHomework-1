@@ -2,20 +2,21 @@ package ru.otus.marketsample.products.feature
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import ru.otus.marketsample.products.domain.ConsumeProductsUseCase
 import ru.otus.marketsample.R
+import ru.otus.marketsample.products.domain.ConsumeProductsUseCase
+import javax.inject.Inject
 
-class ProductListViewModel(
+class ProductListViewModel @Inject constructor(
     private val consumeProductsUseCase: ConsumeProductsUseCase,
     private val productStateFactory: ProductStateFactory,
 ) : ViewModel() {
@@ -38,7 +39,7 @@ class ProductListViewModel(
                 _state.update { screenState ->
                     screenState.copy(
                         isLoading = false,
-                        productListState = productListState,
+                        productListState = productListState.toImmutableList(),
                     )
                 }
             }

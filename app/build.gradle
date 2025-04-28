@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -31,9 +32,20 @@ android {
     }
     kotlinOptions {
         jvmTarget = '17'
+        freeCompilerArgs += [
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$buildDir/compose-metrics",
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$buildDir/compose-reports"
+        ]
     }
     buildFeatures {
         viewBinding true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
 }
 
@@ -64,6 +76,13 @@ dependencies {
     implementation libs.androidx.datastore.preferences
 
     implementation libs.dagger
+    implementation libs.androidx.runtime.android
+    implementation libs.androidx.navigation.compose
+    implementation libs.androidx.material3.android
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.kotlinx.collections.immutable)
+
     kapt libs.daggerCompiler
 
     testImplementation libs.junit

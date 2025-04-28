@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/product_details"
-        android:name="ru.otus.marketsample.details.feature.DetailsFragment"
+        android:name="ru.otus.marketsample.details.feature.view.DetailsFragment"
         android:label="@string/title_details"
         tools:layout="@layout/fragment_details" />
 

@@ -7,6 +7,7 @@ import ru.otus.marketsample.details.feature.di.DetailsComponentDependencies
 import ru.otus.marketsample.products.feature.di.ProductListComponentDependencies
 import ru.otus.marketsample.promo.feature.di.PromoComponentDependencies
 import ru.otus.common.di.Dependencies
+import ru.otus.marketsample.MainActivity
 import javax.inject.Singleton
 
 @Singleton

@@ -1,4 +1,4 @@
-package ru.otus.marketsample.details.feature
+package ru.otus.marketsample.details.feature.view
 
 import android.content.Context
 import android.os.Bundle
@@ -17,6 +17,9 @@ import ru.otus.common.di.findDependencies
 import ru.otus.marketsample.details.feature.di.DaggerDetailsComponent
 import ru.otus.marketsample.R
 import ru.otus.marketsample.databinding.FragmentDetailsBinding
+import ru.otus.marketsample.details.feature.DetailsState
+import ru.otus.marketsample.details.feature.DetailsViewModel
+import ru.otus.marketsample.details.feature.DetailsViewModelFactory
 import javax.inject.Inject
 
 class DetailsFragment : Fragment() {

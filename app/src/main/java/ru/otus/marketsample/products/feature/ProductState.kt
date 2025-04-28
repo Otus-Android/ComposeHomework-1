@@ -1,12 +1,14 @@
 package ru.otus.marketsample.products.feature
 
 import android.content.Context
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 typealias ErrorProvider = (Context) -> String
 
 data class ProductsScreenState(
     val isLoading: Boolean = false,
-    val productListState: List<ProductState> = emptyList(),
+    val productListState: ImmutableList<ProductState> = persistentListOf(),
     val hasError: Boolean = false,
     val errorProvider: ErrorProvider = { "" },
 )
