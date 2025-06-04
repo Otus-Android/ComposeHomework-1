@@ -20,6 +20,12 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
 }
 
 dependencies {
@@ -35,4 +41,8 @@ dependencies {
 
     implementation libs.dagger
     kapt libs.daggerCompiler
+
+    implementation libs.bundles.compose
+    debugImplementation libs.compose.ui.tooling
+    debugImplementation libs.compose.ui.tooling.preview
 }
