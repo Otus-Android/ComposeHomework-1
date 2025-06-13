@@ -1,6 +1,7 @@
 package ru.otus.marketsample.details.feature
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,8 @@ class DetailsViewModel(
     private val consumeProductDetailsUseCase: ConsumeProductDetailsUseCase,
     private val detailsStateFactory: DetailsStateFactory,
     private val productId: String,
-) : ViewModel() {
+    application: Application,
+) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(DetailsScreenState())
     val state: StateFlow<DetailsScreenState> = _state.asStateFlow()
@@ -48,7 +50,7 @@ class DetailsViewModel(
                 _state.update { screenState ->
                     screenState.copy(
                         hasError = true,
-                        errorProvider = { context -> context.getString(R.string.error_wile_loading_data) }
+                        errorMessage = getApplication<Application>().getString(R.string.error_wile_loading_data)
                     )
                 }
             }

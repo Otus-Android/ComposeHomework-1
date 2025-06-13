@@ -25,14 +25,15 @@ import ru.otus.marketsample.R
 internal fun ProductListComposeScreen(
     state: ProductsScreenState,
     onRefresh: () -> Unit,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     val pullToRefreshState = rememberPullToRefreshState()
     val scrollState = rememberScrollState()
 
     PullToRefreshBox(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
         state = pullToRefreshState,
         isRefreshing = state.isLoading,

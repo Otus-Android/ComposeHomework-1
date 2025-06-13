@@ -1,16 +1,8 @@
 package ru.otus.marketsample.details.feature
 
-import android.content.Context
+import androidx.compose.runtime.Immutable
 
-typealias ErrorProvider = (Context) -> String
-
-data class DetailsScreenState(
-    val isLoading: Boolean = false,
-    val detailsState: DetailsState = DetailsState(),
-    val hasError: Boolean = false,
-    val errorProvider: ErrorProvider = { "" },
-)
-
+@Immutable
 data class DetailsState(
     val id: String = "",
     val name: String = "",
@@ -18,4 +10,12 @@ data class DetailsState(
     val price: String = "",
     val hasDiscount: Boolean = false,
     val discount: String = "",
+)
+
+@Immutable
+data class DetailsScreenState(
+    val isLoading: Boolean = false,
+    val detailsState: DetailsState = DetailsState(),
+    val hasError: Boolean = false,
+    val errorMessage: String = ""
 )

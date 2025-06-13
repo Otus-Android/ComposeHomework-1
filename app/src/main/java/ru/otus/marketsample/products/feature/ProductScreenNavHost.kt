@@ -2,6 +2,7 @@ package ru.otus.marketsample.products.feature
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -11,14 +12,21 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ru.otus.marketsample.MarketSampleApp
 import ru.otus.marketsample.details.feature.DetailsViewModel
-import ru.otus.marketsample.details.feature.ProductDetailsComposeScreen
+import ru.otus.marketsample.details.feature.ProductDetailsScreen
 import ru.otus.marketsample.details.feature.di.DaggerDetailsComponent
 
 @Composable
-internal fun ProductScreenNavHost(productListViewModel: ProductListViewModel) {
+internal fun ProductScreenNavHost(
+    productListViewModel: ProductListViewModel,
+    modifier: Modifier = Modifier
+) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "list") {
+    NavHost(
+        navController = navController,
+        startDestination = "list",
+        modifier = modifier
+    ) {
         composable("list") {
             val state = productListViewModel.state.collectAsState().value
             ProductListComposeScreen(
@@ -42,7 +50,7 @@ internal fun ProductScreenNavHost(productListViewModel: ProductListViewModel) {
             val factory = detailsComponent.detailsViewModelFactory()
             val detailsViewModel = viewModel<DetailsViewModel>(factory = factory)
             val state = detailsViewModel.state.collectAsState().value
-            ProductDetailsComposeScreen(state = state)
+            ProductDetailsScreen(state = state)
         }
     }
 }

@@ -21,15 +21,17 @@ class DetailsViewModelFactory @Inject constructor(
         modelClass: Class<T>,
         extras: CreationExtras,
     ): T {
-        when {
-            modelClass.isAssignableFrom(DetailsViewModel::class.java) -> {
-                @Suppress("UNCHECKED_CAST")
-                return DetailsViewModel(
-                    consumeProductDetailsUseCase = consumeProductDetailsUseCase,
-                    detailsStateFactory = detailsStateFactory,
-                    productId = productId,
-                ) as T
-            }
+        if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
+            val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                ?: throw IllegalStateException("Application is null in ViewModelProvider extras")
+
+            @Suppress("UNCHECKED_CAST")
+            return DetailsViewModel(
+                consumeProductDetailsUseCase = consumeProductDetailsUseCase,
+                detailsStateFactory = detailsStateFactory,
+                productId = productId,
+                application = application
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

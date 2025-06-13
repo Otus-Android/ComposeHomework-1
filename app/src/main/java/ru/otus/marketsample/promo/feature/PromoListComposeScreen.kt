@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.otus.marketsample.R
 
@@ -24,14 +23,15 @@ import ru.otus.marketsample.R
 @Composable
 internal fun PromoListComposeScreen(
     state: PromoScreenState,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     val pullToRefreshState = rememberPullToRefreshState()
     val scrollState = rememberScrollState()
 
     PullToRefreshBox(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
         state = pullToRefreshState,
         isRefreshing = state.isLoading,

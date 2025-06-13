@@ -32,11 +32,15 @@ import ru.otus.common.ui.R
 
 
 @Composable
-internal fun ProductItemCompose(item: ProductState, onClick: () -> Unit) {
+internal fun ProductItemCompose(
+    item: ProductState,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .clickable { onClick() }
