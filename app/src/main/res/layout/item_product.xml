@@ -47,39 +47,39 @@
     </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:paddingHorizontal="12dp">
-
-        <TextView
-            android:id="@+id/name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-medium"
-            android:maxLines="2"
-            android:ellipsize="end"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Product Name" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingHorizontal="12dp">
 
         <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="8dp"
-            android:background="@drawable/price_background"
-            android:textColor="@color/purple_500"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="2000 руб" />
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Product Name"/>
+
+        <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:background="@drawable/price_background"
+                android:textColor="@color/purple_500"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="2000 руб"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
