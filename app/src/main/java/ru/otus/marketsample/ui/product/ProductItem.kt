@@ -57,7 +57,7 @@ fun ProductItem(
                     .fillMaxSize()
                     .clip(RoundedCornerShape(spacing.small + spacing.extraSmall)),
                 contentDescription = productName,
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.Crop
             )
             if (productDiscount != null) {
                 Text(
@@ -132,7 +132,7 @@ private fun ProductItemPreview() {
     ProductItem(
         productPrice = "10 y.e.",
         productDiscount = "-10%",
-        productUrl = "https://raw.githubusercontent.com/Otus-Android/ComposeHomework-1/refs/heads/master/img/01.png",
+        productUrl = "https://archive.smashing.media/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/68dd54ca-60cf-4ef7-898b-26d7cbe48ec7/10-dithering-opt.jpg",
         productName = "Product name",
     )
 }
