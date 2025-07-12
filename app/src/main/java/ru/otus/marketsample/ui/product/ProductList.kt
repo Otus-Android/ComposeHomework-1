@@ -1,4 +1,4 @@
-package ru.otus.marketsample.ui.promo
+package ru.otus.marketsample.ui.product
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,23 +11,31 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.otus.marketsample.ViewModelFactory
-import ru.otus.marketsample.promo.feature.PromoListViewModel
+import ru.otus.marketsample.navigate.Screen
+import ru.otus.marketsample.products.feature.ProductListViewModel
 
 @Composable
-fun PromoList(
+fun ProductList(
     modifier: Modifier = Modifier,
-    factory: ViewModelFactory
+    factory: ViewModelFactory,
+    onClick: (screen: Screen, id: String) -> Unit
 ) {
-    val viewModel: PromoListViewModel = viewModel(factory = factory)
+    val viewModel: ProductListViewModel = viewModel(factory = factory)
     val state = viewModel.state.collectAsState().value
     Box(modifier = modifier) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
         ) {
-            items(items = state.promoListState, key = { it.id }) { promoState ->
-                PromoItem(
+            items(items = state.productListState, key = { it.id }) { promoState ->
+                ProductItem(
                     modifier = Modifier.fillMaxWidth(),
-                    promoState = promoState,
+                    promoState,
+                    onClick = {
+                        onClick(
+                            Screen.Details,
+                            promoState.id
+                        )
+                    }
                 )
             }
         }

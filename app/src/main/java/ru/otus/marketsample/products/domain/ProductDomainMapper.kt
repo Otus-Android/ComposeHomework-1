@@ -21,7 +21,9 @@ class ProductDomainMapper @Inject constructor() {
     }
 
     private fun PromoEntity?.resolveDiscount(): Double? {
-        if (this == null) { return null }
+        if (this == null) {
+            return null
+        }
 
         return if (type == "product") {
             discount

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+
 class ProductRepository @Inject constructor(
     private val productLocalDataSource: ProductLocalDataSource,
     private val productRemoteDataSource: ProductRemoteDataSource,

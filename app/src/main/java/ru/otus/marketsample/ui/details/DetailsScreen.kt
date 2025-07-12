@@ -1,4 +1,4 @@
-package ru.otus.marketsample.ui.product
+package ru.otus.marketsample.ui.details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,18 +9,24 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
-import ru.otus.marketsample.products.feature.ProductState
+import ru.otus.marketsample.MarketSampleApp
+import ru.otus.marketsample.R
+import ru.otus.marketsample.details.feature.DetailsViewModel
 import ru.otus.marketsample.theme.ImageBackground
 import ru.otus.marketsample.theme.Purple200
 import ru.otus.marketsample.theme.Purple500
@@ -30,10 +36,19 @@ import ru.otus.marketsample.util.LocalSpacing
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-    productState: ProductState,
-    isLoading: Boolean = false,
+    id: String,
     onClick: () -> Unit
 ) {
+
+    val detailComponent = (LocalContext.current.applicationContext as MarketSampleApp)
+        .appComponent
+        .getViewModelComponentFactory()
+        .create(id)
+
+    val viewModel: DetailsViewModel = viewModel(factory = detailComponent.getViewModelFactory())
+
+    val state by viewModel.state.collectAsState()
+
     ConstraintLayout(
         modifier = modifier
     ) {
@@ -49,8 +64,8 @@ fun DetailScreen(
                     end.linkTo(parent.end)
                     top.linkTo(parent.top)
                 },
-            model = productState.image,
-            contentDescription = productState.name,
+            model = state.detailsState.image,
+            contentDescription = state.detailsState.name,
             contentScale = ContentScale.Crop,
             clipToBounds = true
         )
@@ -61,11 +76,11 @@ fun DetailScreen(
                     top.linkTo(image.bottom)
                 }
                 .wrapContentWidth(),
-            text = productState.name,
+            text = state.detailsState.name,
             fontSize = 24.sp,
             color = Color.Black,
         )
-        if (isLoading) {
+        if (state.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.constrainAs(progressBar) {
                     start.linkTo(parent.start)
@@ -75,7 +90,7 @@ fun DetailScreen(
                 }
             )
         }
-        if (productState.hasDiscount) {
+        if (state.detailsState.hasDiscount) {
             Text(
                 modifier = Modifier
                     .constrainAs(discount) {
@@ -105,7 +120,7 @@ fun DetailScreen(
                         )
                     )
                     .padding(horizontal = 10.dp, vertical = spacing.extraSmall),
-                text = productState.discount,
+                text = state.detailsState.discount,
                 fontSize = 20.sp,
                 color = White
             )
@@ -114,14 +129,14 @@ fun DetailScreen(
             modifier = Modifier
                 .constrainAs(price) {
                     end.linkTo(parent.end)
-                    if (productState.hasDiscount) {
+                    if (state.detailsState.hasDiscount) {
                         top.linkTo(discount.bottom)
                     } else {
                         top.linkTo(productName.bottom)
                     }
                 }
                 .padding(14.dp),
-            text = productState.price,
+            text = stringResource(R.string.price_with_arg, state.detailsState.price),
             fontSize = 16.sp,
             color = Purple500,
             fontWeight = Bold
@@ -147,22 +162,4 @@ fun DetailScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun DetailScreenStatePreview() {
-    DetailScreen(
-        Modifier.fillMaxSize(),
-        onClick = {},
-        isLoading = true,
-        productState = ProductState(
-            id = "123",
-            name = "Product Name",
-            image = "https://archive.smashing.media/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/68dd54ca-60cf-4ef7-898b-26d7cbe48ec7/10-dithering-opt.jpg",
-            price = "2000 asd",
-            discount = "-30%",
-            hasDiscount = true,
-        )
-    )
 }

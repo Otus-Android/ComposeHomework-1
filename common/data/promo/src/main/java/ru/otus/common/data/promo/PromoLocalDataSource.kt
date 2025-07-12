@@ -11,6 +11,8 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import javax.inject.Inject
+import javax.inject.Singleton
+
 
 class PromoLocalDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,

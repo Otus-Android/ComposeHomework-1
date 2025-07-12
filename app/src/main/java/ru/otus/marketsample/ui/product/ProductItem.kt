@@ -2,10 +2,9 @@ package ru.otus.marketsample.ui.product
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -17,13 +16,15 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily.Companion.SansSerif
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.net.toUri
 import coil3.compose.AsyncImage
+import ru.otus.marketsample.R
+import ru.otus.marketsample.products.feature.ProductState
 import ru.otus.marketsample.theme.PriceBackground
 import ru.otus.marketsample.theme.Purple200
 import ru.otus.marketsample.theme.Purple500
@@ -33,10 +34,8 @@ import ru.otus.marketsample.util.LocalSpacing
 @Composable
 fun ProductItem(
     modifier: Modifier = Modifier,
-    productName: String,
-    productUrl: String,
-    productPrice: String,
-    productDiscount: String? = null,
+    productState: ProductState,
+    onClick: (id: String) -> Unit,
 ) {
     val spacing = LocalSpacing.current
     Row(
@@ -45,6 +44,7 @@ fun ProductItem(
             .background(color = White)
             .padding(horizontal = spacing.medium)
             .padding(vertical = spacing.small + spacing.medium)
+            .clickable(onClick = { onClick(productState.id) }),
     ) {
         Box(
             modifier = Modifier
@@ -52,31 +52,18 @@ fun ProductItem(
                 .weight(1f),
         ) {
             AsyncImage(
-                model = productUrl.toUri(),
+                model = productState.image,
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(RoundedCornerShape(spacing.small + spacing.extraSmall)),
-                contentDescription = productName,
+                contentDescription = productState.name,
                 contentScale = ContentScale.Crop
             )
-            if (productDiscount != null) {
+            if (productState.hasDiscount) {
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(spacing.small)
-                        .background(
-                            brush = Brush.linearGradient(
-                                colors = listOf(Purple500, Purple200),
-                                start = Offset(0f, 0f),
-                                end = Offset(50f, 50f)
-                            ),
-                            shape = RoundedCornerShape(
-                                topStart = 40.dp,
-                                topEnd = 10.dp,
-                                bottomEnd = 40.dp,
-                                bottomStart = 40.dp
-                            )
-                        )
                         .border(
                             2.dp, White, shape = RoundedCornerShape(
                                 topStart = 40.dp,
@@ -85,9 +72,24 @@ fun ProductItem(
                                 bottomStart = 40.dp
                             )
                         )
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(Purple500, Purple200),
+                                start = Offset(0f, 0f),
+                                end = Offset(Double.POSITIVE_INFINITY.toFloat(), Double.POSITIVE_INFINITY.toFloat())
+                            ),
+                            shape = RoundedCornerShape(
+                                topStart = 40.dp,
+                                topEnd = 10.dp,
+                                bottomEnd = 40.dp,
+                                bottomStart = 40.dp
+                            )
+
+                        )
                         .padding(horizontal = 10.dp, vertical = spacing.extraSmall),
-                    text = productDiscount,
+                    text = productState.discount,
                     fontSize = 14.sp,
+                    fontWeight = Bold,
                     color = White
                 )
             }
@@ -102,10 +104,11 @@ fun ProductItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = spacing.medium - spacing.small),
-                text = productName,
+                text = productState.name,
                 maxLines = 2,
                 fontSize = 18.sp,
                 fontFamily = SansSerif,
+                fontWeight = FontWeight.Medium,
                 color = Black
             )
             Text(
@@ -117,22 +120,11 @@ fun ProductItem(
                     )
                     .padding(horizontal = spacing.medium - spacing.extraSmall, vertical = spacing.small)
                     .align(Alignment.BottomEnd),
-                text = productPrice,
+                text = stringResource(R.string.price_with_arg, productState.price),
                 fontSize = 16.sp,
                 color = Purple500,
                 fontWeight = Bold
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun ProductItemPreview() {
-    ProductItem(
-        productPrice = "10 y.e.",
-        productDiscount = "-10%",
-        productUrl = "https://archive.smashing.media/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/68dd54ca-60cf-4ef7-898b-26d7cbe48ec7/10-dithering-opt.jpg",
-        productName = "Product name",
-    )
 }

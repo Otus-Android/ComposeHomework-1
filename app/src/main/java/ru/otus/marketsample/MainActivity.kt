@@ -4,26 +4,30 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import ru.otus.marketsample.theme.HomeworkCompose1Theme
+import ru.otus.marketsample.ui.MainApplicationScreen
+import javax.inject.Inject
 
 
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val appComponent = (this.application as MarketSampleApp).appComponent
+
+        appComponent.inject(this)
+
         enableEdgeToEdge()
         setContent {
-            HomeworkCompose1Theme {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text(text = "Hello World", modifier = Modifier.align(Alignment.Center))
-                }
-            }
+            MainApplicationScreen(
+                modifier = Modifier.fillMaxSize(),
+                factory = factory,
+            )
         }
     }
 }

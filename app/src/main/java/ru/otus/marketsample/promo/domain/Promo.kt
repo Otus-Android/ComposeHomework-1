@@ -15,7 +15,7 @@ sealed class Promo(
         description: String,
         discount: Double,
         val products: List<String>,
-    ): Promo(
+    ) : Promo(
         id = id,
         name = name,
         image = image,
@@ -29,7 +29,7 @@ sealed class Promo(
         image: String,
         description: String,
         discount: Double,
-    ): Promo(
+    ) : Promo(
         id = id,
         name = name,
         image = image,

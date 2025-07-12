@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+
 class PromoRepository @Inject constructor(
     private val promoLocalDataSource: PromoLocalDataSource,
     private val promoRemoteDataSource: PromoRemoteDataSource,
