@@ -31,18 +31,20 @@ fun MainApplicationScreen(
     val currentScreen = navHostController.currentBackStackEntryAsState().value?.destination?.route
     Scaffold(
         bottomBar = {
-            BottomBar(
-                modifier = Modifier.fillMaxWidth(),
-                currentScreen = currentScreen,
-                onClick = { screen ->
-                    navHostController.navigate(screen.route) {
-                        launchSingleTop = true
-                        popUpTo(screen.route) {
-                            saveState = true
+            if (currentScreen == Screen.Products.route || currentScreen == Screen.Promo.route) {
+                BottomBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    currentScreen = currentScreen,
+                    onClick = { screen ->
+                        navHostController.navigate(screen.route) {
+                            launchSingleTop = true
+                            popUpTo(screen.route) {
+                                saveState = true
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
         },
         modifier = modifier,
         content = { paddingValues ->

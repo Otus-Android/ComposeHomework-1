@@ -39,6 +39,12 @@ android {
     }
 }
 
+composeCompiler {
+    enableStrongSkippingMode = true
+    reportsDestination = layout.buildDirectory.dir("compose_compiler_test")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler_test")
+}
+
 dependencies {
     implementation project(":common:di")
     implementation project(":common:formatters")
