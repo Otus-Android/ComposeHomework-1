@@ -39,3 +39,79 @@ class MainFragment : Fragment() {
         _binding = null
     }
 }
+
+//@Serializable
+//sealed class Screen(
+//    @StringRes val title: Int,
+//    @DrawableRes val icon: Int
+//) {
+//    @Serializable
+//    object ProductList : Screen(
+//        title = R.string.title_products,
+//        icon = ru.otus.common.ui.R.drawable.ic_list
+//    )
+//
+//    @Serializable
+//    object PromoList : Screen(
+//        title = R.string.title_promo,
+//        icon = ru.otus.common.ui.R.drawable.ic_discount
+//    )
+//
+//    @Serializable
+//    data class ProductDetails(val id: String)
+//}
+//
+//@Composable
+//fun MainScreen() {
+//    val navController = rememberNavController()
+//    val bottomNavigationItems = listOf(ProductList, PromoList)
+//    val navBackStackEntry by navController.currentBackStackEntryAsState()
+//    val currentRoute = navBackStackEntry?.destination
+//
+//    Scaffold(
+//        bottomBar = {
+//            NavigationBar {
+//                bottomNavigationItems.forEach { navigationItem ->
+//                    NavigationBarItem(
+//                        icon = {
+//                            Icon(
+//                                painter = painterResource(navigationItem.icon),
+//                                contentDescription = null
+//                            )
+//                        },
+//                        label = {
+//                            Text(stringResource(navigationItem.title))
+//                        },
+//                        selected = currentRoute == navigationItem,
+//                        onClick = {
+//                            navController.navigate(navigationItem)
+//                        }
+//                    )
+//                }
+//            }
+//        },
+//    ) { padding ->
+//        NavHost(
+//            navController,
+//            startDestination = ProductList,
+//            modifier = Modifier.padding(padding)
+//        ) {
+//            composable<ProductList> {
+//                ProductListScreen(
+//                    navigateToDetails = { productId ->
+//                        navController.navigate(
+//                            route = ProductDetails(productId)
+//                        )
+//                    }
+//                )
+//            }
+//            composable<PromoList> {
+//                PromoListScreen()
+//            }
+//            composable<ProductDetails> { backStackEntry ->
+//                val productId: String = backStackEntry.toRoute()
+//                DetailsScreen(productId = productId)
+//            }
+//        }
+//    }
+//}
