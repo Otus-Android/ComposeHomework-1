@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kapt)
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -33,10 +34,26 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
+        compose true
         viewBinding true
     }
 }
-
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        if (project.findProperty("enableComposeCompilerReports") == "true") {
+            freeCompilerArgs += [
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                            project.buildDir.absolutePath + "/compose_metrics"
+            ]
+            freeCompilerArgs += [
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                            project.buildDir.absolutePath + "/compose_metrics"
+            ]
+        }
+    }
+}
 dependencies {
     implementation project(":common:di")
     implementation project(":common:formatters")
@@ -57,6 +74,7 @@ dependencies {
     implementation libs.navigation.ui.ktx
     implementation libs.coil
     implementation libs.gson
+    implementation libs.bundles.compose
     implementation libs.bundles.network
     implementation libs.kotlin.serialization
     implementation libs.kotlinx.serializationJson
