@@ -4,16 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import ru.otus.marketsample.details.domain.ConsumeProductDetailsUseCase
-import ru.otus.common.di.FeatureScope
 import javax.inject.Inject
-import javax.inject.Named
 
-@FeatureScope
 class DetailsViewModelFactory @Inject constructor(
     private val consumeProductDetailsUseCase: ConsumeProductDetailsUseCase,
-    private val detailsStateFactory: DetailsStateFactory,
-    @Named("productId")
-    private val productId: String,
+    private val detailsStateFactory: DetailsStateFactory
 ) :
     ViewModelProvider.Factory {
 
@@ -26,8 +21,7 @@ class DetailsViewModelFactory @Inject constructor(
                 @Suppress("UNCHECKED_CAST")
                 return DetailsViewModel(
                     consumeProductDetailsUseCase = consumeProductDetailsUseCase,
-                    detailsStateFactory = detailsStateFactory,
-                    productId = productId,
+                    detailsStateFactory = detailsStateFactory
                 ) as T
             }
         }

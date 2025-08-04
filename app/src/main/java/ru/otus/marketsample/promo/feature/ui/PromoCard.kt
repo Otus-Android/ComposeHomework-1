@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import marketsample.promo.feature.PromoState
+import ru.otus.marketsample.promo.feature.PromoState
 
 @Composable
 @Preview

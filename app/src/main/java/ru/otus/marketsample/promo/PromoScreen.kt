@@ -14,7 +14,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ru.otus.marketsample.products.feature.ui.CircularProgressBar
 import ru.otus.marketsample.promo.feature.PromoListViewModel
-import marketsample.promo.feature.PromoState
+import ru.otus.marketsample.promo.feature.PromoState
 import ru.otus.marketsample.promo.feature.ui.PromoCard
 
 @Composable

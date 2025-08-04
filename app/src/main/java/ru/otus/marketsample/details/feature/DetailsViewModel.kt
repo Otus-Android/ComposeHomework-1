@@ -13,23 +13,18 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import ru.otus.marketsample.details.domain.ConsumeProductDetailsUseCase
 import ru.otus.marketsample.R
+import ru.otus.marketsample.details.domain.ConsumeProductDetailsUseCase
 
 class DetailsViewModel(
     private val consumeProductDetailsUseCase: ConsumeProductDetailsUseCase,
-    private val detailsStateFactory: DetailsStateFactory,
-    private val productId: String,
+    private val detailsStateFactory: DetailsStateFactory
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DetailsScreenState())
     val state: StateFlow<DetailsScreenState> = _state.asStateFlow()
 
-    init {
-        requestProducts()
-    }
-
-    private fun requestProducts() {
+    fun requestProducts(productId: String) {
         consumeProductDetailsUseCase(productId)
             .map { productDetails -> detailsStateFactory.create(productDetails) }
             .flowOn(Dispatchers.IO)
