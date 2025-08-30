@@ -102,6 +102,7 @@ class ProductListFragment : Fragment() {
         binding.progress.visibility = View.GONE
         binding.recyclerView.visibility = View.VISIBLE
         (binding.recyclerView.adapter as ProductsAdapter).submitList(productListState)
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     private fun showLoading() {

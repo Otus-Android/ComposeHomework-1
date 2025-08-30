@@ -91,6 +91,7 @@ class PromoListFragment : Fragment() {
         binding.progress.visibility = View.GONE
         binding.recyclerView.visibility = View.VISIBLE
         adapter.submitList(promoListState)
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
     private fun showLoading() {
