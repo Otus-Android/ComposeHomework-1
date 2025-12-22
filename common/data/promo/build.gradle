@@ -23,10 +23,6 @@ android {
 }
 
 dependencies {
-    implementation libs.core.ktx
-    implementation libs.appcompat
-    implementation libs.material
-
     implementation libs.bundles.network
     implementation libs.kotlin.serialization
     implementation libs.kotlinx.serializationJson

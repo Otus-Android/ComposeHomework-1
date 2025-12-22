@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.composeCompiler)
 }
 
 android {
@@ -33,7 +34,12 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
-        viewBinding true
+        compose true
+    }
+
+    composeCompiler {
+        reportsDestination = layout.buildDirectory.dir("compose_reports")
+        metricsDestination = layout.buildDirectory.dir("compose_metrics")
     }
 }
 
@@ -44,18 +50,7 @@ dependencies {
     implementation project(":common:data:products")
     implementation project(":common:data:promo")
 
-    implementation libs.core.ktx
-    implementation libs.appcompat
-    implementation libs.material
-    implementation libs.constraintlayout
-    implementation libs.swipetorefresh
-    implementation libs.lifecycle.livedata.ktx
-    implementation libs.lifecycle.viewmodel.ktx
-    implementation libs.fragment.ktx
-    implementation libs.lifecycle.runtime.ktx
-    implementation libs.navigation.fragment.ktx
-    implementation libs.navigation.ui.ktx
-    implementation libs.coil
+    implementation libs.coil.compose
     implementation libs.gson
     implementation libs.bundles.network
     implementation libs.kotlin.serialization
@@ -69,4 +64,14 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.espresso.core
+
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.navigation.compose
+
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.material3
+
+    // Android Studio Preview support
+    implementation libs.androidx.ui.tooling.preview
+    debugImplementation libs.androidx.ui.tooling
 }
