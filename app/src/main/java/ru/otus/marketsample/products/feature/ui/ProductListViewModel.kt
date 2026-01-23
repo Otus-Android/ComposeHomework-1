@@ -1,4 +1,4 @@
-package ru.otus.marketsample.promo.feature
+package ru.otus.marketsample.products.feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,34 +11,33 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import ru.otus.marketsample.promo.domain.ConsumePromosUseCase
+import ru.otus.marketsample.products.domain.ConsumeProductsUseCase
 import ru.otus.marketsample.R
 
-class PromoListViewModel(
-    private val promoStateFactory: PromoStateFactory,
-    private val consumePromosUseCase: ConsumePromosUseCase,
+class ProductListViewModel(
+    private val consumeProductsUseCase: ConsumeProductsUseCase,
+    private val productStateFactory: ProductStateFactory,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(PromoScreenState())
-    val state: StateFlow<PromoScreenState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(ProductsScreenState())
+    val state: StateFlow<ProductsScreenState> = _state.asStateFlow()
 
     init {
-        requestPromos()
+        requestProducts()
     }
 
-    private fun requestPromos() {
-        consumePromosUseCase()
-            .map { promos ->
-                promos.map(promoStateFactory::map)
-            }
+    private fun requestProducts() {
+        consumeProductsUseCase().map { products ->
+            products.map { product -> productStateFactory.create(product) }
+        }
             .onStart {
                 _state.update { screenState -> screenState.copy(isLoading = true) }
             }
-            .onEach { promoListState ->
+            .onEach { productListState ->
                 _state.update { screenState ->
                     screenState.copy(
                         isLoading = false,
-                        promoListState = promoListState,
+                        productListState = productListState,
                     )
                 }
             }
@@ -54,7 +53,7 @@ class PromoListViewModel(
     }
 
     fun refresh() {
-        requestPromos()
+        requestProducts()
     }
 
     fun errorHasShown() {

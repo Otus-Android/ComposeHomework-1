@@ -1,4 +1,4 @@
-package ru.otus.marketsample.promo.feature
+package ru.otus.marketsample.promo.feature.ui
 
 import ru.otus.common.di.FeatureScope
 import ru.otus.marketsample.promo.domain.Promo

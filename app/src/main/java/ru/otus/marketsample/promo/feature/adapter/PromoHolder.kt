@@ -3,7 +3,7 @@ package ru.otus.marketsample.promo.feature.adapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.otus.marketsample.databinding.ItemPromoBinding
-import ru.otus.marketsample.promo.feature.PromoState
+import ru.otus.marketsample.promo.feature.ui.PromoState
 
 class PromoHolder(
     private val binding: ItemPromoBinding,

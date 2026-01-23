@@ -1,4 +1,4 @@
-package ru.otus.marketsample.promo.feature
+package ru.otus.marketsample.promo.feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

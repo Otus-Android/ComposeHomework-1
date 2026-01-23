@@ -1,9 +1,9 @@
-package ru.otus.marketsample.products.feature
+package ru.otus.marketsample.products.feature.ui
 
 import ru.otus.common.di.FeatureScope
-import ru.otus.marketsample.products.domain.Product
 import ru.otus.common.formatters.DiscountFormatter
 import ru.otus.common.formatters.PriceFormatter
+import ru.otus.marketsample.products.domain.Product
 import javax.inject.Inject
 
 @FeatureScope

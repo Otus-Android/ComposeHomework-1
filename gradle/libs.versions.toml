@@ -1,5 +1,6 @@
 [versions]
 agp = "8.11.1"
+composeBom = "2025.11.00"
 kotlin = "2.2.10"
 core-ktx = "1.17.0"
 junit = "4.13.2"
@@ -25,8 +26,11 @@ serializationJson = "1.9.0"
 androidXDatastore = "1.1.7"
 kotlinx-coroutines-rx2 = "1.7.3"
 dagger = "2.57.1"
+runtime = "1.9.4"
+material3 = "1.4.0"
 
 [libraries]
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -54,6 +58,8 @@ kotlinx-serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 kotlinx-coroutines-rx2 = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-rx2",  version.ref = "kotlinx-coroutines-rx2" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 daggerCompiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [bundles]
 network = ["okhttp", "okhttp-logging-interceptor", "retrofit", "retrofit-converter-gson"]
@@ -64,4 +70,5 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

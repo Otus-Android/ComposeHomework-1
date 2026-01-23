@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import ru.otus.common.di.FeatureScope
 import ru.otus.marketsample.databinding.ItemPromoBinding
-import ru.otus.marketsample.promo.feature.PromoState
+import ru.otus.marketsample.promo.feature.ui.PromoState
 import javax.inject.Inject
 
 @FeatureScope

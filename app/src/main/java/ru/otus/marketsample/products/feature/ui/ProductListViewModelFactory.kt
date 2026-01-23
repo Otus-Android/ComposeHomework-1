@@ -1,4 +1,4 @@
-package ru.otus.marketsample.products.feature
+package ru.otus.marketsample.products.feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,8 +11,7 @@ import javax.inject.Inject
 class ProductListViewModelFactory @Inject constructor(
     private val consumeProductsUseCase: ConsumeProductsUseCase,
     private val productStateFactory: ProductStateFactory,
-) :
-    ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(
         modelClass: Class<T>,

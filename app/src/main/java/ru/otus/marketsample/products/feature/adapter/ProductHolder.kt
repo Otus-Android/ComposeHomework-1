@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.otus.marketsample.R
 import ru.otus.marketsample.databinding.ItemProductBinding
-import ru.otus.marketsample.products.feature.ProductState
+import ru.otus.marketsample.products.feature.ui.ProductState
 
 class ProductHolder(
     private val binding: ItemProductBinding,
