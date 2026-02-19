@@ -36,12 +36,12 @@ class DetailsFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        DaggerDetailsComponent.factory()
-            .create(
-                dependencies = findDependencies(),
-                productId = productId,
-            )
-            .inject(this)
+//        DaggerDetailsComponent.factory()
+//            .create(
+//                dependencies = findDependencies(),
+//                productId = productId,
+//            )
+//            .inject(this)
     }
 
     override fun onCreateView(
