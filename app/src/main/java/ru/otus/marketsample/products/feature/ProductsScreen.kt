@@ -12,11 +12,16 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,8 +29,10 @@ fun ProductsScreen(
     state: ProductsScreenState,
     onRefresh: () -> Unit,
     onItemClicked: (String) -> Unit,
-    onErrorShown: () -> Unit
+    onErrorShown: () -> Unit,
+    productsViewModel : ProductListViewModel = viewModel()
 ) {
+
     val context = LocalContext.current
 
     if (state.hasError) {
