@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kapt)
 }
 
@@ -34,6 +35,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
 }
 
@@ -56,12 +58,30 @@ dependencies {
     implementation libs.navigation.fragment.ktx
     implementation libs.navigation.ui.ktx
     implementation libs.coil
+    implementation libs.coil.compose
     implementation libs.gson
     implementation libs.bundles.network
     implementation libs.kotlin.serialization
     implementation libs.kotlinx.serializationJson
     implementation libs.androidx.datastore
     implementation libs.androidx.datastore.preferences
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.foundation
+    implementation libs.compose.animation
+    implementation libs.compose.runtime
+    implementation libs.lifecycle.viewmodel.compose
+    implementation libs.lifecycle.runtime.compose
+    implementation(libs.compose.material3)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.text)
+    implementation(libs.compose.ui.unit)
+    implementation(libs.compose.ui.geometry)
+
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
+
+    implementation(libs.compose.ui.tooling.preview)
 
     implementation libs.dagger
     kapt libs.daggerCompiler

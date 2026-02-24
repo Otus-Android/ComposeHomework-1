@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,12 +21,10 @@ import ru.otus.common.di.findDependencies
 import ru.otus.marketsample.details.feature.di.DaggerDetailsComponent
 import ru.otus.marketsample.R
 import ru.otus.marketsample.databinding.FragmentDetailsBinding
+import ru.otus.marketsample.details.feature.ui.DetailsScreen
 import javax.inject.Inject
 
 class DetailsFragment : Fragment() {
-
-    private var _binding: FragmentDetailsBinding? = null
-    private val binding get() = _binding!!
 
     @Inject
     lateinit var factory: DetailsViewModelFactory
@@ -49,77 +51,24 @@ class DetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                val state by viewModel.state.collectAsState()
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        subscribeUI()
-    }
-
-    private fun subscribeUI() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.state.collect { state ->
-                        when {
-                            state.isLoading -> showLoading()
-                            state.hasError -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Error wile loading data",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                viewModel.errorHasShown()
-                            }
-
-                            else -> showProduct(detailsState = state.detailsState)
-                        }
-                    }
+                if (state.hasError) {
+                    Toast.makeText(context, "Error while loading data", Toast.LENGTH_SHORT).show()
+                    viewModel.errorHasShown()
                 }
+
+                DetailsScreen(
+                    state = state,
+                    onAddToCartClick = {
+                        Toast.makeText(context, "Added to cart!", Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
         }
     }
 
-    private fun showLoading() {
-        hideAll()
-        binding.progress.visibility = View.VISIBLE
-    }
-
-    private fun showProduct(detailsState: DetailsState) {
-        hideAll()
-        binding.image.load(detailsState.image)
-        binding.image.visibility = View.VISIBLE
-
-        binding.name.text = detailsState.name
-        binding.name.visibility = View.VISIBLE
-
-        binding.price.text = getString(R.string.price_with_arg, detailsState.price)
-        binding.price.visibility = View.VISIBLE
-
-        if (detailsState.hasDiscount) {
-            binding.promo.visibility = View.VISIBLE
-            binding.promo.text = detailsState.discount
-        } else {
-            binding.promo.visibility = View.GONE
-        }
-
-        binding.addToCart.visibility = View.VISIBLE
-    }
-
-    private fun hideAll() {
-        binding.progress.visibility = View.GONE
-        binding.image.visibility = View.GONE
-        binding.name.visibility = View.GONE
-        binding.price.visibility = View.GONE
-        binding.progress.visibility = View.GONE
-        binding.addToCart.visibility = View.GONE
-    }
 }
