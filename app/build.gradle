@@ -37,6 +37,10 @@ android {
         viewBinding true
         compose true
     }
+    composeCompiler {
+        metricsDestination = layout.buildDirectory.dir("compose_metrics")
+        reportsDestination = layout.buildDirectory.dir("compose_reports")
+    }
 }
 
 dependencies {
