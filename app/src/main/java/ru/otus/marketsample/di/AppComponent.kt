@@ -7,6 +7,7 @@ import ru.otus.marketsample.details.feature.di.DetailsComponentDependencies
 import ru.otus.marketsample.products.feature.di.ProductListComponentDependencies
 import ru.otus.marketsample.promo.feature.di.PromoComponentDependencies
 import ru.otus.common.di.Dependencies
+import ru.otus.marketsample.MainActivity
 import javax.inject.Singleton
 
 @Singleton
@@ -14,16 +15,15 @@ import javax.inject.Singleton
     modules = [
         NetworkModule::class,
         DataModule::class,
+        ViewModelModule::class,
     ]
 )
-interface AppComponent:
-    Dependencies,
-    DetailsComponentDependencies,
-    PromoComponentDependencies,
-    ProductListComponentDependencies
-{
+interface AppComponent : Dependencies,
+        DetailsComponentDependencies {
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance applicationContext: Context): AppComponent
     }
+
+    fun inject(activity: MainActivity)
 }

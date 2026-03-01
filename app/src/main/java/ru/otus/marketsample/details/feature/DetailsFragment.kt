@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import coil.load
+import androidx.navigation.fragment.findNavController
+import coil3.load
 import kotlinx.coroutines.launch
 import ru.otus.common.di.findDependencies
 import ru.otus.marketsample.details.feature.di.DaggerDetailsComponent
