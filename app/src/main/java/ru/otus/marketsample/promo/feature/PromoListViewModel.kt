@@ -11,10 +11,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import ru.otus.marketsample.promo.domain.ConsumePromosUseCase
 import ru.otus.marketsample.R
+import ru.otus.marketsample.promo.domain.ConsumePromosUseCase
+import javax.inject.Inject
 
-class PromoListViewModel(
+class PromoListViewModel @Inject constructor(
     private val promoStateFactory: PromoStateFactory,
     private val consumePromosUseCase: ConsumePromosUseCase,
 ) : ViewModel() {
