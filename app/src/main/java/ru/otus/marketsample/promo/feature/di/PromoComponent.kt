@@ -3,7 +3,7 @@ package ru.otus.marketsample.promo.feature.di
 import dagger.Component
 import ru.otus.common.data.promo.PromoRepository
 import ru.otus.common.di.FeatureScope
-import ru.otus.marketsample.promo.feature.PromoListFragment
+import ru.otus.marketsample.promo.feature.PromoListViewModelFactory
 
 @FeatureScope
 @Component(dependencies = [PromoComponentDependencies::class])
@@ -13,8 +13,8 @@ interface PromoComponent {
     interface Factory {
         fun create(dependencies: PromoComponentDependencies): PromoComponent
     }
+    fun getFactory(): PromoListViewModelFactory
 
-    fun inject(productFragment: PromoListFragment)
 }
 
 interface PromoComponentDependencies {
