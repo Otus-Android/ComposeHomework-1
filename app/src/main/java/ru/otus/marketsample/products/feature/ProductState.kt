@@ -7,6 +7,7 @@ typealias ErrorProvider = (Context) -> String
 data class ProductsScreenState(
     val isLoading: Boolean = false,
     val productListState: List<ProductState> = emptyList(),
+    val isOpenDetailInfo: ProductState?  = null,
     val hasError: Boolean = false,
     val errorProvider: ErrorProvider = { "" },
 )
