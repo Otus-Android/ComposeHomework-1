@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -34,7 +35,14 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
+}
+
+composeCompiler {
+    enableStrongSkippingMode = true
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
 dependencies {
@@ -43,6 +51,21 @@ dependencies {
     implementation project(":common:ui")
     implementation project(":common:data:products")
     implementation project(":common:data:promo")
+
+    def composeBom = platform(libs.compose.bom)
+    implementation composeBom
+    androidTestImplementation composeBom
+    
+    implementation libs.compose.ui
+    implementation libs.compose.ui.graphics
+    implementation libs.compose.ui.tooling.preview
+    implementation libs.compose.material3
+    implementation libs.compose.activity
+    implementation libs.compose.viewmodel
+    implementation libs.compose.navigation
+    implementation libs.coil.compose
+    debugImplementation libs.compose.ui.tooling
+
 
     implementation libs.core.ktx
     implementation libs.appcompat

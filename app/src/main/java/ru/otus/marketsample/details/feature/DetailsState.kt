@@ -1,9 +1,11 @@
 package ru.otus.marketsample.details.feature
 
 import android.content.Context
+import androidx.compose.runtime.Immutable
 
 typealias ErrorProvider = (Context) -> String
 
+@Immutable
 data class DetailsScreenState(
     val isLoading: Boolean = false,
     val detailsState: DetailsState = DetailsState(),
