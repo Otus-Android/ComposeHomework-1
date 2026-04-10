@@ -1,0 +1,21 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun MainScreen()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun DetailsScreen(
+  stable state: DetailsScreenState
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun DetailsScreenPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductListScreen(
+  stable state: ProductsScreenState
+  unused stable onRefresh: Function0<Unit>
+  stable onItemClick: Function1<String, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProductItem(
+  stable product: ProductState
+  stable onClick: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoListScreen(
+  stable state: PromoScreenState
+  unused stable onRefresh: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun PromoItem(
+  stable promo: PromoState
+)
