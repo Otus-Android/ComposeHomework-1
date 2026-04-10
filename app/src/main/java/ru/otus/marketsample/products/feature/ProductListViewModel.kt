@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import ru.otus.marketsample.products.domain.ConsumeProductsUseCase
 import ru.otus.marketsample.R
 
@@ -46,7 +47,7 @@ class ProductListViewModel(
                 _state.update { screenState ->
                     screenState.copy(
                         hasError = true,
-                        errorProvider = { context -> context.getString(R.string.error_wile_loading_data) }
+                        errorProvider = { context -> context.getString(R.string.error_while_loading_data) }
                     )
                 }
             }
