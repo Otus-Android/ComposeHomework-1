@@ -6,15 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.launch
 import ru.otus.common.di.findDependencies
+import ru.otus.marketsample.common.Loader
 import ru.otus.marketsample.databinding.FragmentPromoListBinding
+import ru.otus.marketsample.products.feature.compose.PromoList
 import ru.otus.marketsample.promo.feature.adapter.PromoAdapter
 import ru.otus.marketsample.promo.feature.di.DaggerPromoComponent
 import javax.inject.Inject
@@ -52,51 +51,19 @@ class PromoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.promoComposeView.setContent {
+            val state by viewModel.state.collectAsState()
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.refresh()
-        }
-
-        subscribeUI()
-    }
-
-    private fun subscribeUI() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.state.collect { state ->
-                        when {
-                            state.isLoading -> showLoading()
-                            state.hasError -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Error wile loading data",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                viewModel.errorHasShown()
-                            }
-
-                            else -> showPromoList(promoListState = state.promoListState)
-                        }
-                    }
-                }
+            when {
+                state.isLoading -> Loader()
+                state.hasError -> Toast.makeText(
+                    requireContext(),
+                    "Error wile loading data",
+                    Toast.LENGTH_SHORT
+                ).show()
+                else -> PromoList(state, onRefresh = { viewModel.refresh()})
             }
         }
-    }
-
-    private fun showPromoList(promoListState: List<PromoState>) {
-        binding.progress.visibility = View.GONE
-        binding.recyclerView.visibility = View.VISIBLE
-        adapter.submitList(promoListState)
-        binding.swipeRefreshLayout.isRefreshing = false
-    }
-
-    private fun showLoading() {
-        binding.progress.visibility = View.VISIBLE
-        binding.recyclerView.visibility = View.GONE
     }
 
     override fun onDestroyView() {
