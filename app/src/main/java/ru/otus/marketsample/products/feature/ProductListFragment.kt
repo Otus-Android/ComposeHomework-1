@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import ru.otus.marketsample.MarketSampleApp
+import ru.otus.marketsample.R
 import ru.otus.marketsample.products.feature.di.DaggerProductListComponent
 import javax.inject.Inject
 
@@ -38,7 +41,14 @@ class ProductListFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 ProductListScreen(
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    onClick = { productId ->
+                        requireActivity().findNavController(R.id.nav_host_activity_main)
+                            .navigate(
+                                resId = R.id.action_main_to_details,
+                                args = bundleOf("productId" to productId),
+                            )
+                    }
                 )
             }
         }

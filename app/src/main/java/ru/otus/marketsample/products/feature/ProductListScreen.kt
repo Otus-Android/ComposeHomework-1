@@ -23,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun ProductListScreen(
     viewModel: ProductListViewModel,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -63,7 +64,7 @@ fun ProductListScreen(
                         ) { product ->
                             ProductItem(
                                 product = product,
-                                onClick = {}
+                                onClick = onClick
                             )
                         }
                     }
