@@ -93,7 +93,7 @@ private fun ProductImage(
 }
 
 @Composable
-private fun DiscountBadge(
+fun DiscountBadge(
     discountText: String,
     modifier: Modifier = Modifier
 ) {

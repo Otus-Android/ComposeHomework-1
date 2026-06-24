@@ -73,7 +73,6 @@ dependencies {
     implementation libs.androidx.lifecycle.runtime.compose
 
     implementation libs.compose.coil
-//    implementation libs.compose.coil.network
 
     implementation libs.dagger
     kapt libs.daggerCompiler
