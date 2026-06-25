@@ -3,24 +3,42 @@ package ru.otus.marketsample
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import ru.otus.marketsample.databinding.ActivityMainBinding
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import ru.otus.marketsample.navigation.CreateGraph
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        
-        ViewCompat.setOnApplyWindowInsetsListener(binding.container) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        setContent {
+            val navController = rememberNavController()
+
+            val currentRoute = navController
+                .currentBackStackEntryAsState()
+                .value
+                ?.destination
+                ?.route
+
+            Scaffold(
+                bottomBar = {
+                    if (currentRoute != "details/{productId}") {
+                        BottomBar(navController = navController)
+                    }
+                }
+            ) { padding ->
+                CreateGraph(
+                    navController = navController,
+                    appComponent = (application as MarketSampleApp).appComponent,
+                    modifier = Modifier.padding(padding)
+                )
+            }
         }
     }
 }

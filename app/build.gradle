@@ -55,8 +55,6 @@ dependencies {
     implementation libs.lifecycle.viewmodel.ktx
     implementation libs.fragment.ktx
     implementation libs.lifecycle.runtime.ktx
-    implementation libs.navigation.fragment.ktx
-    implementation libs.navigation.ui.ktx
     implementation libs.coil
     implementation libs.gson
     implementation libs.bundles.network
@@ -73,6 +71,8 @@ dependencies {
     implementation libs.androidx.lifecycle.runtime.compose
 
     implementation libs.compose.coil
+
+    implementation libs.androidx.navigation.compose
 
     implementation libs.dagger
     kapt libs.daggerCompiler

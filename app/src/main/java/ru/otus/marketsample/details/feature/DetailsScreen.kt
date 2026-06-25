@@ -1,4 +1,4 @@
-package ru.otus.marketsample.details.feature.di
+package ru.otus.marketsample.details.feature
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -10,11 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import ru.otus.marketsample.details.feature.DetailsViewModel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.otus.marketsample.details.feature.DetailsItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
