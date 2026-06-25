@@ -1,7 +1,6 @@
 package ru.otus.marketsample.products.feature
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -45,24 +44,20 @@ fun ProductListScreen(
             onRefresh = {},
             modifier = modifier.fillMaxSize()
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                if (this@with.isLoading) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(
-                            items = productListState,
-                            key = { product -> product.id }
-                        ) { product ->
-                            ProductItem(
-                                product = product,
-                                onClick = onClick
-                            )
-                        }
+            if (this@with.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(
+                        items = productListState,
+                        key = { product -> product.id }
+                    ) { product ->
+                        ProductItem(
+                            product = product,
+                            onClick = onClick
+                        )
                     }
                 }
             }
