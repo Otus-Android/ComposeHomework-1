@@ -39,6 +39,16 @@ android {
     }
 }
 
+composeCompiler {
+    reportsDestination.set(
+            layout.buildDirectory.dir("compose-reports")
+    )
+
+    metricsDestination.set(
+            layout.buildDirectory.dir("compose-metrics")
+    )
+}
+
 dependencies {
     implementation project(":common:di")
     implementation project(":common:formatters")
