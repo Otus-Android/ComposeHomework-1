@@ -33,7 +33,7 @@ android {
         jvmTarget = '17'
     }
     buildFeatures {
-        viewBinding true
+        compose = true
     }
 }
 
@@ -43,6 +43,16 @@ dependencies {
     implementation project(":common:ui")
     implementation project(":common:data:products")
     implementation project(":common:data:promo")
+
+    implementation platform(libs.compose.bom)
+    implementation libs.androidx.foundation.layout
+    implementation libs.androidx.ui.tooling.preview
+    implementation libs.material3
+    implementation libs.compose.preview
+    implementation libs.compose.activity
+    implementation libs.compose.viewmodel
+    debugImplementation libs.androidx.ui.tooling
+    implementation libs.coil.compose
 
     implementation libs.core.ktx
     implementation libs.appcompat
