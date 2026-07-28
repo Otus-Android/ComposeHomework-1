@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.kotlinCompose)
 }
 
 android {
@@ -34,7 +35,13 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
+}
+
+composeCompiler {
+    reportsDestination.set(layout.buildDirectory.dir("compose-reports"))
+    metricsDestination.set(layout.buildDirectory.dir("compose-metrics"))
 }
 
 dependencies {
@@ -43,6 +50,14 @@ dependencies {
     implementation project(":common:ui")
     implementation project(":common:data:products")
     implementation project(":common:data:promo")
+    implementation(platform("androidx.compose:compose-bom:2025.05.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.activity:activity-compose:1.10.1")
+    implementation("io.coil-kt:coil-compose:2.7.0")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("androidx.compose.ui:ui-tooling-preview")
 
     implementation libs.core.ktx
     implementation libs.appcompat
@@ -64,6 +79,8 @@ dependencies {
     implementation libs.androidx.datastore.preferences
 
     implementation libs.dagger
+    implementation libs.androidx.runtime
+    implementation libs.androidx.foundation.layout
     kapt libs.daggerCompiler
 
     testImplementation libs.junit
