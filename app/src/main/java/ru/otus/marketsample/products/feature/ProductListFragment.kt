@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,10 +18,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHost
@@ -163,7 +166,6 @@ private fun ProductListContent(
             }
 
             else -> {
-                // Основной контент
                 PullToRefreshBox(
                     state = pullToRefreshState,
                     isRefreshing = state.isLoading,
@@ -202,19 +204,19 @@ private fun ProductItem(
     modifier: Modifier = Modifier
 ) {
     val discountBrush = Brush.linearGradient(
+        colors = listOf(
+            Color(0xFFCE93D8),
+            Color(0xFF9C27B0)
+        ),
         start = Offset(0f, Float.POSITIVE_INFINITY),
-        end = Offset(Float.POSITIVE_INFINITY, 0f),
-        colors = listOf(Color(0xFFFF5722), Color(0xFFFF8A65))
+        end = Offset(Float.POSITIVE_INFINITY, 0f)
     )
-
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() },
         shape = RoundedCornerShape(12.dp),
-        elevation = androidx.compose.material3.CardDefaults.cardElevation(
-            defaultElevation = 2.dp
-        )
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -223,7 +225,6 @@ private fun ProductItem(
                 .padding(8.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Изображение
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -244,7 +245,22 @@ private fun ProductItem(
                             .padding(8.dp)
                             .background(
                                 brush = discountBrush,
-                                shape = RoundedCornerShape(4.dp)
+                                shape = RoundedCornerShape(
+                                    topStart = 40.dp,
+                                    topEnd = 10.dp,
+                                    bottomEnd = 40.dp,
+                                    bottomStart = 40.dp
+                                )
+                            )
+                            .border(
+                                width = 2.dp,
+                                color = Color.White,
+                                shape = RoundedCornerShape(
+                                    topStart = 40.dp,
+                                    topEnd = 10.dp,
+                                    bottomEnd = 40.dp,
+                                    bottomStart = 40.dp
+                                )
                             )
                             .padding(horizontal = 10.dp, vertical = 4.dp),
                         color = Color.White,
@@ -253,6 +269,7 @@ private fun ProductItem(
                     )
                 }
             }
+
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -266,7 +283,8 @@ private fun ProductItem(
                     fontWeight = FontWeight.Medium,
                     color = Color.Black,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Text(
@@ -275,8 +293,10 @@ private fun ProductItem(
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF6200EE),
                     modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.End)
                         .background(
-                            color = Color(0xFFE8E0F0),
+                            color = Color(0xFFFFF3E0),
                             shape = RoundedCornerShape(8.dp)
                         )
                         .padding(horizontal = 12.dp, vertical = 8.dp)
